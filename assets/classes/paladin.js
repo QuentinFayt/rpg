@@ -77,7 +77,11 @@ class Paladin extends Characters {
   }
   paladinAI(computer, target) {
     if (target.hp - computer.specialdmg <= 0) {
-      return 1;
+      if (target.hp - computer.dmg <= 0 && computer.hp > computer.maxhp - 5) {
+        return 0;
+      } else {
+        return 1;
+      }
     } else {
       if (computer.hp <= computer.maxhp - 5) {
         return 1;

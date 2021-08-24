@@ -51,7 +51,7 @@ class Game {
     console.log("What do you wanna play?");
     this.characters.forEach((character, index) =>
       console.log(
-        `${index}) ${character.name} the ${character.constructor.name} 
+        `${index + 1}) ${character.name} the ${character.constructor.name} 
 hp: ${character.hp} 
 dmg per turn: ${character.dmg}
 max mana: ${character.mana}
@@ -64,10 +64,10 @@ ${character.description()}`
       userInput = Math.trunc(Number(prompt("Choose a number")));
     } while (
       isNaN(userInput) ||
-      userInput < numberOfCharacters - numberOfCharacters ||
+      userInput < numberOfCharacters - numberOfCharacters + 1 ||
       userInput > numberOfCharacters
     );
-
+    userInput = userInput - 1;
     this.characters[userInput].user = true;
 
     console.log(
