@@ -38,7 +38,7 @@ class Turn {
   }
 
   computerAction(computerTurn, target) {
-    let computerDecision = this.computerAi(computerTurn);
+    let computerDecision = this.computerAI(computerTurn, target);
 
     if (computerDecision === 0) {
       this.talkToUser(computerTurn, target, 1);
@@ -58,16 +58,33 @@ class Turn {
       .filter((alive) => alive.state === "alive")
       .filter((targetable) => targetable.name !== me.name);
     let isItKillable = target.filter((current) => current.hp - me.dmg < 0);
-    if (isItKillable.length > 0) {
+    let isItKillableWithSpecial = target.filter(
+      (current) => current.hp - me.specialdmg < 0
+    );
+    if (isItKillableWithSpecial.length > 0 && me.actualMana - me.cost >= 0) {
+      return (target = this.shuffle(isItKillableWithSpecial));
+    } else if (isItKillable.length > 0) {
       return (target = this.shuffle(isItKillable));
     } else {
       return (target = this.shuffle(target));
     }
   }
 
-  computerAi(computer) {
+  computerAI(computer, target) {
     if (computer.actualMana >= 0 && computer.actualMana - computer.cost >= 0) {
-      return Math.floor(Math.random() * 2);
+      if (computer instanceof Paladin) {
+        return computer.paladinAI(computer, target);
+      } else if (computer instanceof Monk) {
+        return computer.monkAI(computer);
+      } else if (computer instanceof Fighter) {
+        return computer.fighterAI(computer, target);
+      } else if (computer instanceof Berzerker) {
+        return computer.berserkerAI(computer);
+      } else if (computer instanceof Assassin) {
+        return computer.assassinAI(computer, target);
+      } else if (computer instanceof Wizard) {
+        return computer.wizardrAI(computer, target);
+      }
     } else {
       return 0;
     }
@@ -128,7 +145,9 @@ class Turn {
 
   talkToUser(player, target, input) {
     if (input === undefined) {
-      console.log(`It's your turn! What do you wanna do?
+      console.log(`It's your turn! You currently have ${player.hp} life points, and ${player.mana} mana.
+
+What do you wanna do?
 1) Attack
 2) Use your special ability
 3) Get more info`);
@@ -138,7 +157,7 @@ class Turn {
 2) Use your special ability`);
     } else if (input === 1) {
       let actualhp = target.hp - player.dmg;
-      if (target.protection && !target instanceof Assassin) {
+      if (target.protection && !(target instanceof Assassin)) {
         actualhp = actualhp + target.protection;
       }
       if (actualhp < 0) {
@@ -160,7 +179,7 @@ class Turn {
           player.dmg,
           "damages!"
         );
-        if (target.protection && !target instanceof Assassin) {
+        if (target.protection && !(target instanceof Assassin)) {
           console.log(`But ${target.protectionAmount} is blocked!`);
         }
         console.log(target.name, "has", actualhp, "life point left!");
@@ -173,25 +192,22 @@ class Turn {
           player.dmg,
           "damages!"
         );
-        if (target.protection && !target instanceof Assassin) {
+        if (target.protection && !(target instanceof Assassin)) {
           console.log(`But ${target.protectionAmount} is blocked!`);
         }
         console.log(target.name, "has", actualhp, "life point left!");
       }
-      if (target.protection && !target instanceof Assassin) {
-        console.log(`But ${target.protectionAmount} is blocked!`);
-      }
     } else if (input === 2) {
       if (player.actualMana >= player.cost) {
-        if (!player instanceof Monk && !player instanceof Berzerker) {
+        if (!(player instanceof Monk) && !(player instanceof Berzerker)) {
           let actualhp = target.hp - player.specialdmg;
-          if (target.protection && !target instanceof Assassin) {
+          if (target.protection && !(target instanceof Assassin)) {
             actualhp = actualhp + target.protection;
           }
           if (actualhp < 0) {
             actualhp = 0;
           }
-          if (target.protection && !target instanceof Assassin) {
+          if (target.protection && target instanceof Assassin) {
             if (player.user) {
               console.log(
                 `You tried to use your special ability on Sylvanas, but she wasn't there!`
@@ -209,7 +225,7 @@ class Turn {
               player.specialdmg,
               "damages!"
             );
-            if (target.protection && !target instanceof Assassin) {
+            if (target.protection && !(target instanceof Assassin)) {
               console.log(`But ${target.protectionAmount} is blocked!`);
             }
             console.log(target.name, "has", actualhp, "life point left!");
@@ -222,7 +238,7 @@ class Turn {
               player.specialdmg,
               "damages!"
             );
-            if (target.protection && !target instanceof Assassin) {
+            if (target.protection && !(target instanceof Assassin)) {
               console.log(`But ${target.protectionAmount} is blocked!`);
             }
             console.log(target.name, "has", actualhp, "life point left!");

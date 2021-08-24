@@ -20,14 +20,27 @@ class Monk extends Characters {
         console.log(`${this.name} tries to heal himself...But fails!`);
       } else if (this.hp + 8 > this.maxhp) {
         console.log(
-          `${this.name} restores ${this.maxhp - this.hp} of his life points!`
+          `Uses Heal and ${this.name} restores ${
+            this.maxhp - this.hp
+          } of his life points!`
         );
         this.hp = this.maxhp;
       } else {
-        console.log(`${this.name} restores 8 of his life points!`);
+        console.log(
+          `Uses Heal and ${this.name} restores 8 of his life points!`
+        );
         this.hp = this.hp + 8;
       }
       console.log(`${this.name} now have ${this.actualMana} mana left.`);
+    }
+  }
+  monkAI(computer) {
+    if (computer.hp === computer.maxhp) {
+      return 0;
+    } else if (computer.hp <= computer.maxhp / 2) {
+      return 1;
+    } else {
+      return Math.floor(Math.random() * 2);
     }
   }
 }
