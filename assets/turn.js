@@ -37,16 +37,16 @@ class Turn {
     );
   }
 
-  computerAction(computerTurn, target) {
-    let computerDecision = this.computerAI(computerTurn, target);
+  computerAction(computerTurn, computerTarget) {
+    let computerDecision = this.computerAI(computerTurn, computerTarget);
 
     if (computerDecision === 0) {
-      this.talkToUser(computerTurn, target, 1);
-      computerTurn.dealDamage(target);
+      this.talkToUser(computerTurn, computerTarget, 1);
+      computerTurn.dealDamage(computerTarget);
     } else {
       if (computerTurn.needTarget) {
-        this.talkToUser(computerTurn, target, 2);
-        computerTurn.special(target);
+        this.talkToUser(computerTurn, computerTarget, 2);
+        computerTurn.special(computerTarget);
       } else {
         computerTurn.special();
       }
@@ -57,9 +57,9 @@ class Turn {
     let target = this.characters
       .filter((alive) => alive.state === "alive")
       .filter((targetable) => targetable.name !== me.name);
-    let isItKillable = target.filter((current) => current.hp - me.dmg < 0);
+    let isItKillable = target.filter((current) => current.hp - me.dmg <= 0);
     let isItKillableWithSpecial = target.filter(
-      (current) => current.hp - me.specialdmg < 0
+      (current) => current.hp - me.specialdmg <= 0
     );
     if (isItKillableWithSpecial.length > 0 && me.actualMana - me.cost >= 0) {
       return (target = this.shuffle(isItKillableWithSpecial));
@@ -71,7 +71,7 @@ class Turn {
   }
 
   computerAI(computer, target) {
-    if (computer.actualMana >= 0 && computer.actualMana - computer.cost >= 0) {
+    if (computer.actualMana - computer.cost >= 0) {
       if (computer instanceof Paladin) {
         return computer.paladinAI(computer, target);
       } else if (computer instanceof Monk) {
@@ -158,7 +158,7 @@ What do you wanna do?
     } else if (input === 1) {
       let actualhp = target.hp - player.dmg;
       if (target.protection && !(target instanceof Assassin)) {
-        actualhp = actualhp + target.protection;
+        actualhp = actualhp + target.protectionAmount;
       }
       if (actualhp < 0) {
         actualhp = 0;
@@ -202,7 +202,7 @@ What do you wanna do?
         if (!(player instanceof Monk) && !(player instanceof Berserker)) {
           let actualhp = target.hp - player.specialdmg;
           if (target.protection && !(target instanceof Assassin)) {
-            actualhp = actualhp + target.protection;
+            actualhp = actualhp + target.protectionAmount;
           }
           if (actualhp < 0) {
             actualhp = 0;

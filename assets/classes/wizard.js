@@ -7,9 +7,22 @@ class Wizard extends Characters {
     cost = 25,
     maxhp = 10,
     specialdmg = 7,
-    needTarget = true
+    needTarget = true,
+    protection = false,
+    protectionAmount = 0
   ) {
-    super(name, hp, dmg, mana, cost, maxhp, specialdmg, needTarget);
+    super(
+      name,
+      hp,
+      dmg,
+      mana,
+      cost,
+      maxhp,
+      specialdmg,
+      needTarget,
+      protection,
+      protectionAmount
+    );
   }
   description() {
     return `${this.name}'s special ability is "Fire Ball" : for ${this.cost} mana, ${this.name} uses his arcane powers to invoke a ball of flame and throw it to his ennemy, dealing ${this.specialdmg} damages!`;

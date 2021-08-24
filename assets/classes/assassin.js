@@ -8,9 +8,21 @@ class Assassin extends Characters {
     maxhp = 8,
     specialdmg = 7,
     needTarget = true,
-    protection = false
+    protection = false,
+    protectionAmount = 0
   ) {
-    super(name, hp, dmg, mana, cost, maxhp, specialdmg, needTarget, protection);
+    super(
+      name,
+      hp,
+      dmg,
+      mana,
+      cost,
+      maxhp,
+      specialdmg,
+      needTarget,
+      protection,
+      protectionAmount
+    );
     this.wasUsed = false;
   }
   description() {

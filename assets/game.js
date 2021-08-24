@@ -12,12 +12,12 @@ class Game {
   newTurn() {
     let countTurn = 2;
     do {
+      new Turn(this.characters);
       this.characters.forEach((player) => (player.protection = false));
       if (this.characters[4].wasUsed === true) {
         this.characters[4].protection = true;
         this.characters[4].wasUsed = false;
       }
-      new Turn(this.characters);
       this.turnleft--;
 
       if (

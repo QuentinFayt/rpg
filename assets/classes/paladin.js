@@ -7,9 +7,22 @@ class Paladin extends Characters {
     cost = 40,
     maxhp = 16,
     specialdmg = 4,
-    needTarget = true
+    needTarget = true,
+    protection = false,
+    protectionAmount = 0
   ) {
-    super(name, hp, dmg, mana, cost, maxhp, specialdmg, needTarget);
+    super(
+      name,
+      hp,
+      dmg,
+      mana,
+      cost,
+      maxhp,
+      specialdmg,
+      needTarget,
+      protection,
+      protectionAmount
+    );
   }
   description() {
     return `${this.name}'s special ability is "Healing Lighting" : for ${this.cost} mana, ${this.name} uses holy light to inflicts ${this.specialdmg} damages to his target and healing himself for 5 life points in the process.`;
@@ -28,11 +41,15 @@ class Paladin extends Characters {
         }
         if (this.hp + 5 > this.maxhp) {
           console.log(
-            `${this.name} restores ${this.maxhp - this.hp} of his life points!`
+            `${this.name} restores ${
+              this.maxhp - this.hp
+            } of his life points! He gets back up to ${this.hp} life points!`
           );
           this.hp = this.maxhp;
         } else {
-          console.log(`${this.name} restores 5 of his life points!`);
+          console.log(
+            `${this.name} restores 5 of his life points! He gets back up to ${this.hp} life points!`
+          );
           this.hp = this.hp + 5;
         }
         console.log(`${this.name} now has ${this.actualMana} mana left.`);
