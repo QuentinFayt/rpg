@@ -1,11 +1,11 @@
 class Assassin extends Characters {
   constructor(
     name,
-    hp = 6,
+    hp = 8,
     dmg = 6,
     mana = 20,
     cost = 20,
-    maxhp = 6,
+    maxhp = 8,
     specialdmg = 7,
     needTarget = true,
     protection = false

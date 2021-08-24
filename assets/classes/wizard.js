@@ -1,7 +1,7 @@
 class Wizard extends Characters {
   constructor(
     name,
-    hp = 10,
+    hp = 9,
     dmg = 2,
     mana = 200,
     cost = 25,
@@ -20,7 +20,7 @@ class Wizard extends Characters {
       let recovered;
       if (this.state !== "dead") {
         if (target.protection) {
-          if (!target instanceof Assassin) {
+          if (!(target instanceof Assassin)) {
             target.hp = target.hp - (this.specialdmg - target.protectionAmount);
           }
         } else {
