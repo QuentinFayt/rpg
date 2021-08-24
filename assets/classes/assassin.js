@@ -46,4 +46,13 @@ class Assassin extends Characters {
       }
     }
   }
+  assassinAI(computer, target) {
+    if (computer.hp <= 5) {
+      return 1;
+    } else if (target.hp - computer.specialdmg <= 0) {
+      return 1;
+    } else {
+      return Math.floor(Math.random() * 2);
+    }
+  }
 }

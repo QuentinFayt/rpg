@@ -28,7 +28,9 @@ class Characters {
   }
   dealDamage(target) {
     let recovered;
+
     if (this.state !== "dead") {
+      let rageleech = target.hp;
       if (target.protection) {
         if (!target instanceof Assassin) {
           target.hp = target.hp - (this.dmg - target.protectionAmount);
@@ -49,6 +51,26 @@ class Characters {
             this.actualMana = this.actualMana + 20;
           }
           console.log(`${this.name} now has ${this.actualMana} mana left!`);
+        }
+        if (this.name === "Garrosh") {
+          if (this.rage === true) {
+            rageleech = Math.floor(rageleech / 2);
+            if (this.hp !== this.maxhp) {
+              if (this.hp + rageleech > this.maxhp) {
+                rageleech = this.maxhp - this.hp;
+                console.log(
+                  `Enraged, ${this.name} leechs ${rageleech} life from his victim!`
+                );
+                this.hp = this.maxhp;
+              } else {
+                console.log(
+                  `Enraged, ${this.name} leechs ${rageleech} life from his victim!`
+                );
+                this.hp = this.hp + rageleech;
+              }
+              console.log(`${this.name} now has ${this.hp} life left!`);
+            }
+          }
         }
       }
     }

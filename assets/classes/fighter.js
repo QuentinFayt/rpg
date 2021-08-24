@@ -60,4 +60,13 @@ class Fighter extends Characters {
       }
     }
   }
+  fighterAI(computer, target) {
+    if (computer.hp < 7) {
+      return 1;
+    } else if (target.hp - computer.specialdmg <= 0) {
+      return 1;
+    } else {
+      return Math.floor(Math.random() * 2);
+    }
+  }
 }

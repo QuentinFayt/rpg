@@ -41,7 +41,7 @@ class Game {
       new Fighter("Varian"),
       new Paladin("Arthas"),
       new Monk("Shen"),
-      new Berzerker("Garrosh"),
+      new Berserker("Garrosh"),
       new Assassin("Sylvanas"),
       new Wizard("Medivh"),
     ];

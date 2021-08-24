@@ -54,4 +54,17 @@ class Paladin extends Characters {
       }
     }
   }
+  paladinAI(computer, target) {
+    if (target.hp - computer.specialdmg <= 0) {
+      return 1;
+    } else {
+      if (computer.hp <= computer.maxhp - 5) {
+        return 1;
+      } else if (computer.hp < computer.maxhp) {
+        return Math.floor(Math.random() * 2);
+      } else {
+        return 0;
+      }
+    }
+  }
 }

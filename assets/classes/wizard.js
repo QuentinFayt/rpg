@@ -45,4 +45,11 @@ class Wizard extends Characters {
       }
     }
   }
+  wizardrAI(computer, target) {
+    if (target.hp - computer.specialdmg <= 0) {
+      return 1;
+    } else {
+      return Math.floor(Math.random() * 2);
+    }
+  }
 }
