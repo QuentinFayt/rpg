@@ -32,7 +32,7 @@ class Characters {
     if (this.state !== "dead") {
       let rageleech = target.hp;
       if (target.protection) {
-        if (!target instanceof Assassin) {
+        if (!(target instanceof Assassin)) {
           target.hp = target.hp - (this.dmg - target.protectionAmount);
         }
       } else {
