@@ -39,8 +39,10 @@ ${this.name} enrages himself! ${this.name}'s damages increases for 1!`);
       console.log(`${this.name}'s battle spirit restrain his arm...`);
     }
   }
-  berserkerAI(computer) {
-    if (computer.hp > 5) {
+  berserkerAI(computer, target) {
+    if (target.hp - computer.dmg <= 0) {
+      return 0;
+    } else if (computer.hp > 5) {
       return Math.floor(Math.random() * 2);
     } else {
       return 0;

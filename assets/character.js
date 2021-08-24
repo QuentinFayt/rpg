@@ -54,7 +54,6 @@ class Characters {
         }
         if (this.name === "Garrosh") {
           if (this.rage === true) {
-            rageleech = Math.floor(rageleech / 2);
             if (this.hp !== this.maxhp) {
               if (this.hp + rageleech > this.maxhp) {
                 rageleech = this.maxhp - this.hp;

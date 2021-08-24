@@ -79,7 +79,7 @@ class Turn {
       } else if (computer instanceof Fighter) {
         return computer.fighterAI(computer, target);
       } else if (computer instanceof Berserker) {
-        return computer.berserkerAI(computer);
+        return computer.berserkerAI(computer, target);
       } else if (computer instanceof Assassin) {
         return computer.assassinAI(computer, target);
       } else if (computer instanceof Wizard) {
@@ -234,7 +234,7 @@ What do you wanna do?
               player.name,
               "targets",
               target.name,
-              "with his/her special ability and inflict",
+              "with his/her special ability and deals",
               player.specialdmg,
               "damages!"
             );

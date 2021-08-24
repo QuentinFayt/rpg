@@ -60,6 +60,12 @@ class Wizard extends Characters {
   }
   wizardrAI(computer, target) {
     if (target.hp - computer.specialdmg <= 0) {
+      if (target.hp - computer.dmg <= 0) {
+        return 0;
+      } else {
+        return 1;
+      }
+    } else if (computer.actualMana >= computer.cost * 3) {
       return 1;
     } else {
       return Math.floor(Math.random() * 2);
