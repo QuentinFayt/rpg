@@ -1,0 +1,24 @@
+html{
+    box-sizing: border-box;
+    font-family: "Arial Black";
+    background-color: black;
+}
+body{
+    width: 50%;
+    margin: 0 auto;
+}
+h1{
+    color:white;
+    text-align: center;
+}
+button{
+    padding: 0 1em;
+    font-family: "Arial Black";
+    width: 40%;
+    margin:0 auto;
+}
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
