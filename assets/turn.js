@@ -78,7 +78,7 @@ class Turn {
         return computer.monkAI(computer);
       } else if (computer instanceof Fighter) {
         return computer.fighterAI(computer, target);
-      } else if (computer instanceof Berzerker) {
+      } else if (computer instanceof Berserker) {
         return computer.berserkerAI(computer);
       } else if (computer instanceof Assassin) {
         return computer.assassinAI(computer, target);
@@ -199,7 +199,7 @@ What do you wanna do?
       }
     } else if (input === 2) {
       if (player.actualMana >= player.cost) {
-        if (!(player instanceof Monk) && !(player instanceof Berzerker)) {
+        if (!(player instanceof Monk) && !(player instanceof Berserker)) {
           let actualhp = target.hp - player.specialdmg;
           if (target.protection && !(target instanceof Assassin)) {
             actualhp = actualhp + target.protection;

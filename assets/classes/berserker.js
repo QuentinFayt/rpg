@@ -1,4 +1,4 @@
-class Berzerker extends Characters {
+class Berserker extends Characters {
   constructor(
     name,
     hp = 20,
@@ -12,7 +12,7 @@ class Berzerker extends Characters {
     this.rage = false;
   }
   description() {
-    return `${this.name}'s special ability is "Rage" : for ${this.cost} mana but 1 life point, ${this.name} hurts himself to awake his battle spirit, enraging himself and giving him +1 damage point until the end of the fight`;
+    return `${this.name}'s special ability is "Rage" : for ${this.cost} mana but 1 life point, ${this.name} hurts himself to awake his battle spirit, enraging himself and giving him +1 damage point until the end of the fight. If ${this.name} kills an opponent while being enraged, he leeches half of the damage done.`;
   }
   special() {
     if (this.hp !== 1) {
