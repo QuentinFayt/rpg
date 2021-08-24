@@ -40,17 +40,21 @@ class Paladin extends Characters {
           target.hp = target.hp - this.specialdmg;
         }
         if (this.hp + 5 > this.maxhp) {
-          console.log(
-            `${this.name} restores ${
-              this.maxhp - this.hp
-            } of his life points! He gets back up to ${this.hp} life points!`
-          );
-          this.hp = this.maxhp;
+          if (this.hp !== this.maxhp) {
+            console.log(
+              `${this.name} restores ${
+                this.maxhp - this.hp
+              } of his life points! He gets back up to ${
+                this.maxhp
+              } life points!`
+            );
+            this.hp = this.maxhp;
+          }
         } else {
+          this.hp = this.hp + 5;
           console.log(
             `${this.name} restores 5 of his life points! He gets back up to ${this.hp} life points!`
           );
-          this.hp = this.hp + 5;
         }
         console.log(`${this.name} now has ${this.actualMana} mana left.`);
       }
