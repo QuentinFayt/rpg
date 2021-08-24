@@ -61,7 +61,7 @@ class Fighter extends Characters {
     }
   }
   fighterAI(computer, target) {
-    if (computer.hp < 7) {
+    if (computer.hp) {
       return 1;
     } else if (target.hp - computer.specialdmg <= 0) {
       return 1;

@@ -6,9 +6,23 @@ class Monk extends Characters {
     mana = 200,
     cost = 25,
     maxhp = 10,
-    needTarget = false
+    specialdmg = 0,
+    needTarget = false,
+    protection = false,
+    protectionAmount = 0
   ) {
-    super(name, hp, dmg, mana, cost, maxhp, needTarget);
+    super(
+      name,
+      hp,
+      dmg,
+      mana,
+      cost,
+      maxhp,
+      specialdmg,
+      needTarget,
+      protection,
+      protectionAmount
+    );
   }
   description() {
     return `${this.name}'s special ability is "Heal" : for ${this.cost} mana, ${this.name} attempts to use his ki to heal himself from up to 8 life points.`;

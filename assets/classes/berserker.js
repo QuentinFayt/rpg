@@ -6,9 +6,23 @@ class Berserker extends Characters {
     mana = 0,
     cost = 0,
     maxhp = 9,
-    needTarget = false
+    specialdmg = 0,
+    needTarget = false,
+    protection = false,
+    protectionAmount = 0
   ) {
-    super(name, hp, dmg, mana, cost, maxhp, needTarget);
+    super(
+      name,
+      hp,
+      dmg,
+      mana,
+      cost,
+      maxhp,
+      specialdmg,
+      needTarget,
+      protection,
+      protectionAmount
+    );
     this.rage = false;
   }
   description() {
