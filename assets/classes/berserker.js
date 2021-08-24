@@ -5,7 +5,7 @@ class Berserker extends Characters {
     dmg = 4,
     mana = 0,
     cost = 0,
-    maxhp = 8,
+    maxhp = 9,
     needTarget = false
   ) {
     super(name, hp, dmg, mana, cost, maxhp, needTarget);

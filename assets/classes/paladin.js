@@ -20,7 +20,7 @@ class Paladin extends Characters {
       let recovered;
       if (this.state !== "dead") {
         if (target.protection) {
-          if (!target instanceof Assassin) {
+          if (!(target instanceof Assassin)) {
             target.hp = target.hp - (this.specialdmg - target.protectionAmount);
           }
         } else {

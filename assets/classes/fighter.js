@@ -33,7 +33,7 @@ class Fighter extends Characters {
       let recovered;
       if (this.state !== "dead") {
         if (target.protection) {
-          if (!target instanceof Assassin) {
+          if (!(target instanceof Assassin)) {
             target.hp =
               target.hp - (this.dmg.specialdmg - target.protectionAmount);
           }
