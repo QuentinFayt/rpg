@@ -138,13 +138,13 @@ class Turn {
 2) Use your special ability`);
     } else if (input === 1) {
       let actualhp = target.hp - player.dmg;
-      if (target.protection && target.name !== "Sylvanas") {
+      if (target.protection && !target instanceof Assassin) {
         actualhp = actualhp + target.protection;
       }
       if (actualhp < 0) {
         actualhp = 0;
       }
-      if (target.protection && target.name === "Sylvanas") {
+      if (target.protection && target instanceof Assassin) {
         if (player.user) {
           console.log(`You tried to attack Sylvanas, but she wasn't there!`);
         } else {
@@ -160,7 +160,7 @@ class Turn {
           player.dmg,
           "damages!"
         );
-        if (target.protection && target.name !== "Sylvanas") {
+        if (target.protection && !target instanceof Assassin) {
           console.log(`But ${target.protectionAmount} is blocked!`);
         }
         console.log(target.name, "has", actualhp, "life point left!");
@@ -173,25 +173,25 @@ class Turn {
           player.dmg,
           "damages!"
         );
-        if (target.protection && target.name !== "Sylvanas") {
+        if (target.protection && !target instanceof Assassin) {
           console.log(`But ${target.protectionAmount} is blocked!`);
         }
         console.log(target.name, "has", actualhp, "life point left!");
       }
-      if (target.protection && target.name !== "Sylvanas") {
+      if (target.protection && !target instanceof Assassin) {
         console.log(`But ${target.protectionAmount} is blocked!`);
       }
     } else if (input === 2) {
       if (player.actualMana >= player.cost) {
-        if (player.name !== "Shen" && player.name !== "Garrosh") {
+        if (!player instanceof Monk && !player instanceof Berzerker) {
           let actualhp = target.hp - player.specialdmg;
-          if (target.protection && target.name !== "Sylvanas") {
+          if (target.protection && !target instanceof Assassin) {
             actualhp = actualhp + target.protection;
           }
           if (actualhp < 0) {
             actualhp = 0;
           }
-          if (target.protection && target.name === "Sylvanas") {
+          if (target.protection && !target instanceof Assassin) {
             if (player.user) {
               console.log(
                 `You tried to use your special ability on Sylvanas, but she wasn't there!`
@@ -209,7 +209,7 @@ class Turn {
               player.specialdmg,
               "damages!"
             );
-            if (target.protection && target.name !== "Sylvanas") {
+            if (target.protection && !target instanceof Assassin) {
               console.log(`But ${target.protectionAmount} is blocked!`);
             }
             console.log(target.name, "has", actualhp, "life point left!");
@@ -222,7 +222,7 @@ class Turn {
               player.specialdmg,
               "damages!"
             );
-            if (target.protection && target.name !== "Sylvanas") {
+            if (target.protection && !target instanceof Assassin) {
               console.log(`But ${target.protectionAmount} is blocked!`);
             }
             console.log(target.name, "has", actualhp, "life point left!");
