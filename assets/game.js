@@ -10,8 +10,12 @@ class Game {
   }
 
   newTurn() {
-    let countTurn = 2;
+    let countTurn = 1;
     do {
+      console.log(
+        `%cRound ${countTurn}`,
+        `font-size:20px ; font-style:bold ; text-decoration:underline ; color:#77f0ff`
+      );
       new Turn(this.characters);
       this.characters.forEach((player) => (player.protection = false));
       if (this.characters[4].wasUsed === true) {
@@ -21,22 +25,23 @@ class Game {
       this.turnleft--;
 
       if (
-        this.characters.filter((alive) => alive.state !== "dead").length === 1
+        this.characters.filter((alive) => alive.state !== "dead").length ===
+          1 ||
+        this.turnleft === 0
       ) {
         this.state = "over";
-        console.log("The fight is over!");
-      } else if (this.turnleft === 0) {
-        this.state = "over";
-        console.log("The fight is over!");
+        console.log("%cThe fight is over!", `font-size:15px ; font-style:bold`);
       } else {
-        console.log("Round", countTurn);
         countTurn++;
       }
     } while (this.state === "ongoing");
   }
 
   createChar() {
-    console.log("The fighters stepped in the arena!!!");
+    console.log(
+      `%cThe fighters stepped in the arena!!!`,
+      `font-size:20px ; font-style:bold ; color:#77f0ff`
+    );
     return [
       new Fighter("Varian"),
       new Paladin("Arthas"),
@@ -48,14 +53,29 @@ class Game {
   }
 
   selectYourChampion() {
-    console.log("What do you wanna play?");
+    console.log(
+      `%cWhat do you wanna play?`,
+      `font-size:15px ; font-style:bold ; color:#77f0ff`
+    );
     this.characters.forEach((character, index) =>
       console.log(
-        `${index + 1}) ${character.name} the ${character.constructor.name} 
-hp: ${character.hp} 
-dmg per turn: ${character.dmg}
-max mana: ${character.mana}
-${character.description()}`
+        `${index + 1}) %c${character.name} %cthe %c${
+          character.constructor.name
+        } 
+%chp: %c${character.hp} 
+%cdmg per turn: %c${character.dmg}
+%cmax mana: %c${character.mana}
+%c${character.description()}`,
+        `color:#e97451; font-style: italic`,
+        `clear`,
+        `color:#00b654`,
+        `clear`,
+        `color:#32cd32`,
+        `clear`,
+        `color:#ef1523`,
+        `clear`,
+        `color:#1e90ff`,
+        `clear`
       )
     );
     let userInput;
@@ -92,9 +112,12 @@ You have:\n
       }
     }
     if (winner.user === true) {
-      console.log("Congratulation, you won!");
+      console.log(
+        `%cCongratulation, you won!`,
+        `font-size:15px ; font-style:bold`
+      );
     } else {
-      console.log(winner.name, "won!");
+      console.log(`%c${winner.name} won!`, `font-size:15px ; font-style:bold`);
     }
   }
 }

@@ -30,13 +30,40 @@ class Berserker extends Characters {
   }
   special() {
     if (this.hp !== 1) {
-      console.log(`${this.name} hurts himself, loosing 1 hp...
-${this.name} enrages himself! ${this.name}'s damages increases for 1!`);
+      if (this.user) {
+        console.log(
+          `You hurt yourself, loosing %c1 hp%c...
+You get enraged! Your damages increase for %c1%c!`,
+          `color:#32cd32`,
+          `clear`,
+          `color:#ef1523`,
+          `clear`
+        );
+      } else {
+        console.log(
+          `%c${this.name} %churts himself, loosing %c1 hp%c...
+%c${this.name} %cenrages himself! %c${this.name}%c's damages increase for %c1%c!`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#32cd32`,
+          `clear`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#ef1523`,
+          `clear`
+        );
+      }
       this.hp = this.hp - 1;
       this.dmg = this.dmg + 1;
       this.rage = true;
     } else {
-      console.log(`${this.name}'s battle spirit restrain his arm...`);
+      console.log(
+        `Your battle spirit restrain your arm... "%cYou can't die by your own hand!%c"`,
+        `font-style:italic`,
+        `clear`
+      );
     }
   }
   berserkerAI(computer, target) {
@@ -46,6 +73,38 @@ ${this.name} enrages himself! ${this.name}'s damages increases for 1!`);
       return Math.floor(Math.random() * 2);
     } else {
       return 0;
+    }
+  }
+  rageleech(lifeleeched) {
+    if (this.rage === true) {
+      if (this.hp !== this.maxhp) {
+        if (this.hp + lifeleeched > this.maxhp) {
+          this.hp = this.maxhp;
+        } else {
+          this.hp = this.hp + lifeleeched;
+        }
+        if (this.user) {
+          console.log(
+            `Enraged, you leech %c${lifeleeched} life %cfrom your victim! You now have %c${this.hp} life %cleft!`,
+            `color:#32cd32`,
+            `clear`,
+            `color:#32cd32`,
+            `clear`
+          );
+        } else {
+          console.log(
+            `Enraged, %c${this.name} %cleechs %c${lifeleeched} life %cfrom his victim! %c${this.name} %cnow has %c${this.hp} life %cleft!`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#32cd32`,
+            `clear`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#32cd32`,
+            `clear`
+          );
+        }
+      }
     }
   }
 }

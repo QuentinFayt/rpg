@@ -31,21 +31,61 @@ class Monk extends Characters {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
       if (this.hp === this.maxhp) {
-        console.log(`${this.name} tries to heal himself...But fails!`);
+        console.log(`You tried to heal yourself...But fail!`);
       } else if (this.hp + 8 > this.maxhp) {
-        console.log(
-          `Uses Heal and ${this.name} restores ${
-            this.maxhp - this.hp
-          } of his life points!`
-        );
+        if (this.user) {
+          console.log(
+            `You use Heal and restore %c${
+              this.maxhp - this.hp
+            } %cof your life points!`,
+            `color:#32cd32`,
+            `clear`
+          );
+        } else {
+          console.log(
+            `%c${this.name} %cuses Heal and restores %c${
+              this.maxhp - this.hp
+            } %cof his life points!`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#32cd32`,
+            `clear`
+          );
+        }
         this.hp = this.maxhp;
       } else {
-        console.log(
-          `Uses Heal and ${this.name} restores 8 of his life points!`
-        );
+        if (this.user) {
+          console.log(
+            `You use Heal and restore %c8%c of your life points!`,
+            `color:#32cd32`,
+            `clear`
+          );
+        } else {
+          console.log(
+            `%c${this.name} %cuses Heal and restores %c8%c of his life points!`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#32cd32`,
+            `clear`
+          );
+        }
         this.hp = this.hp + 8;
       }
-      console.log(`${this.name} now have ${this.actualMana} mana left.`);
+      if (this.user) {
+        console.log(
+          `You now have %c${this.actualMana} mana %cleft.`,
+          `color:#1e90ff`,
+          `clear`
+        );
+      } else {
+        console.log(
+          `%c${this.name} %cnow has %c${this.actualMana} mana %cleft.`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#1e90ff`,
+          `clear`
+        );
+      }
     }
   }
   monkAI(computer) {
