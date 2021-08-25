@@ -31,7 +31,6 @@ class Assassin extends Characters {
   special(target) {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
-      let recovered;
       if (this.state !== "dead") {
         if (target.protection) {
           target.hp = target.hp - (this.specialdmg - target.protectionAmount);
@@ -39,22 +38,24 @@ class Assassin extends Characters {
           target.hp = target.hp - this.specialdmg;
         }
         this.wasUsed = true;
-        console.log(`${this.name} now has ${this.actualMana} mana left.`);
+        if (this.user) {
+          console.log(
+            `You now have %c${this.actualMana} %cmana left.`,
+            `color:#1e90ff`,
+            `clear`
+          );
+        } else {
+          console.log(
+            `%c${this.name} %cnow has %c${this.actualMana} %cmana left.`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#1e90ff`,
+            `clear`
+          );
+        }
       }
       if (target.hp <= 0) {
-        console.log(`${this.name} killed ${target.name}!`);
-        target.state = "dead";
-        if (this.actualMana !== this.mana) {
-          if (this.actualMana + 20 > this.mana) {
-            recovered = this.mana - this.actualMana;
-            console.log(`${this.name} recovers ${recovered} mana point!`);
-            this.actualMana = this.mana;
-          } else {
-            console.log(`${this.name} recovers 20 mana point!`);
-            this.actualMana = this.actualMana + 20;
-          }
-          console.log(`${this.name} now has ${this.actualMana} mana left!`);
-        }
+        super.kill(target);
       }
     }
   }

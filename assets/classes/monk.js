@@ -37,7 +37,11 @@ class Monk extends Characters {
           console.log(
             `You use Heal and restore %c${
               this.maxhp - this.hp
-            } %cof your life points!`,
+            } %cof your life points! You go back up to %c${
+              this.maxhp
+            }  %clife!`,
+            `color:#32cd32`,
+            `clear`,
             `color:#32cd32`,
             `clear`
           );
@@ -45,7 +49,13 @@ class Monk extends Characters {
           console.log(
             `%c${this.name} %cuses Heal and restores %c${
               this.maxhp - this.hp
-            } %cof his life points!`,
+            } %cof his life points! %c${this.name} %cgoes back up to %c${
+              this.maxhp
+            } %clife!`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#32cd32`,
+            `clear`,
             `color:#e97451; font-style: italic`,
             `clear`,
             `color:#32cd32`,
@@ -54,22 +64,28 @@ class Monk extends Characters {
         }
         this.hp = this.maxhp;
       } else {
+        this.hp = this.hp + 8;
         if (this.user) {
           console.log(
-            `You use Heal and restore %c8%c of your life points!`,
+            `You use Heal and restore %c8%c of your life points! You go back up to %c${this.hp} %clife!`,
+            `color:#32cd32`,
+            `clear`,
             `color:#32cd32`,
             `clear`
           );
         } else {
           console.log(
-            `%c${this.name} %cuses Heal and restores %c8%c of his life points!`,
+            `%c${this.name} %cuses Heal and restores %c8%c of his life points! %c${this.name} %cgoes back up to %c${this.hp} %clife!`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#32cd32`,
+            `clear`,
             `color:#e97451; font-style: italic`,
             `clear`,
             `color:#32cd32`,
             `clear`
           );
         }
-        this.hp = this.hp + 8;
       }
       if (this.user) {
         console.log(
