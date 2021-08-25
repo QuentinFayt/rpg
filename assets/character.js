@@ -27,10 +27,8 @@ class Characters {
     this.user = false;
   }
   dealDamage(target) {
-    let recovered;
-
     if (this.state !== "dead") {
-      let rageleech = target.hp;
+      let lifetmp = target.hp;
       if (target.protection) {
         if (!(target instanceof Assassin)) {
           target.hp = target.hp - (this.dmg - target.protectionAmount);
@@ -39,39 +37,47 @@ class Characters {
         target.hp = target.hp - this.dmg;
       }
       if (target.hp <= 0) {
-        console.log(`${this.name} killed ${target.name}!`);
-        target.state = "dead";
-        if (this.actualMana !== this.mana) {
-          if (this.actualMana + 20 > this.mana) {
-            recovered = this.mana - this.actualMana;
-            console.log(`${this.name} recovers ${recovered} mana point!`);
-            this.actualMana = this.mana;
-          } else {
-            console.log(`${this.name} recovers 20 mana point!`);
-            this.actualMana = this.actualMana + 20;
-          }
-          console.log(`${this.name} now has ${this.actualMana} mana left!`);
-        }
-        if (this.name === "Garrosh") {
-          if (this.rage === true) {
-            if (this.hp !== this.maxhp) {
-              if (this.hp + rageleech > this.maxhp) {
-                rageleech = this.maxhp - this.hp;
-                console.log(
-                  `Enraged, ${this.name} leechs ${rageleech} life from his victim!`
-                );
-                this.hp = this.maxhp;
-              } else {
-                console.log(
-                  `Enraged, ${this.name} leechs ${rageleech} life from his victim!`
-                );
-                this.hp = this.hp + rageleech;
-              }
-              console.log(`${this.name} now has ${this.hp} life left!`);
-            }
-          }
-        }
+        this.kill(target, lifetmp);
       }
+    }
+  }
+  kill(target, lifetmp) {
+    console.log(`%c${this.name} killed ${target.name}!`, `color:#ff4646`);
+    target.state = "dead";
+    if (this.actualMana !== this.mana) {
+      this.recoverMana();
+    }
+    if (this instanceof Berserker) {
+      this.rageleech(lifetmp);
+    }
+  }
+  recoverMana() {
+    if (this.actualMana + 20 > this.mana) {
+      console.log(
+        `%c${this.name} %crecovers %c${this.mana - this.actualMana} mana! %c${
+          this.name
+        } %cnow has %c${this.mana} mana %cleft!`,
+        `color:#e97451; font-style: italic`,
+        `clear`,
+        `color:#1e90ff`,
+        `color:#e97451; font-style: italic`,
+        `clear`,
+        `color:#1e90ff`,
+        `clear`
+      );
+      this.actualMana = this.mana;
+    } else {
+      this.actualMana = this.actualMana + 20;
+      console.log(
+        `%c${this.name} %crecovers %c20 mana! %c${this.name} %cnow has %c${this.actualMana} mana %cleft!`,
+        `color:#e97451; font-style: italic`,
+        `clear`,
+        `color:#1e90ff`,
+        `color:#e97451; font-style: italic`,
+        `clear`,
+        `color:#1e90ff`,
+        `clear`
+      );
     }
   }
 }

@@ -14,7 +14,10 @@ class Turn {
         if (characterTurn[0].user === true) {
           this.userTurn(characterTurn[0]);
         } else {
-          console.log(`It's ${characterTurn[0].name}'s turn!`);
+          console.log(
+            `%cIt's ${characterTurn[0].name}'s turn!`,
+            `font-size:15px ; font-style:bold ; text-decoration:underline ; color:#e97451`
+          );
           let target = this.computerTarget(characterTurn[0]);
           this.computerAction(characterTurn[0], target[0]);
         }
@@ -32,7 +35,12 @@ class Turn {
 
     survivors.forEach((character) =>
       console.log(
-        `${character.name} is still alive with ${character.hp} hp and ${character.actualMana} mana!`
+        `%c${character.name} %cis still alive with %c${character.hp} hp %cand %c${character.actualMana} mana!`,
+        `color:#e97451; font-style: italic`,
+        `clear`,
+        `color:#32cd32`,
+        `clear`,
+        `color:#1e90ff`
       )
     );
   }
@@ -118,6 +126,7 @@ class Turn {
     } while (isNaN(userInput) || userInput < 1 || userInput > 3);
     if (userInput === 3) {
       this.showAlivedChar();
+      this.talkToUser(player, target, userInput);
       do {
         userInput = Math.trunc(Number(prompt("Choose a number")));
       } while (isNaN(userInput) || userInput < 1 || userInput > 2);
@@ -145,16 +154,34 @@ class Turn {
 
   talkToUser(player, target, input) {
     if (input === undefined) {
-      console.log(`It's your turn! You currently have ${player.hp} life points, and ${player.mana} mana.
-
-What do you wanna do?
-1) Attack
+      console.log(
+        `It's your turn! You currently have %c${player.hp} life points %cand %c${player.actualMana} mana.
+        
+%cWhat do you wanna do?
+1) Attack for %c${player.dmg} %cdamages
 2) Use your special ability
-3) Get more info`);
+3) Get more info`,
+        `color:#32cd32`,
+        `clear`,
+        `color:#1e90ff`,
+        `clear`,
+        `color:#ef1523`,
+        `clear`
+      );
     } else if (input === 3) {
-      console.log(`It's your turn! What do you wanna do?
-1) Attack
-2) Use your special ability`);
+      console.log(
+        `It's still your turn! Your currently have %c${player.hp} life points %cand %c${player.actualMana} mana.
+
+%cWhat do you wanna do?
+1) Attack for %c${player.dmg} %cdamages
+2) Use your special ability`,
+        `color:#32cd32`,
+        `clear`,
+        `color:#1e90ff`,
+        `clear`,
+        `color:#ef1523`,
+        `clear`
+      );
     } else if (input === 1) {
       let actualhp = target.hp - player.dmg;
       if (target.protection && !(target instanceof Assassin)) {
@@ -165,37 +192,52 @@ What do you wanna do?
       }
       if (target.protection && target instanceof Assassin) {
         if (player.user) {
-          console.log(`You tried to attack Sylvanas, but she wasn't there!`);
+          console.log(
+            `You tried to attack %c${target.name}%c, but she wasn't there!`,
+            `color:#e97451; font-style: italic`,
+            `clear`
+          );
         } else {
           console.log(
-            `${player.name} tried to attack Sylvanas, but she wasn't there!`
+            `%c${player.name} %ctried to attack %c${target.name}%c, but she wasn't there!`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#e97451; font-style: italic`,
+            `clear`
           );
         }
       } else if (player.user) {
         console.log(
-          "You attacked",
-          target.name,
-          "and inflict",
-          player.dmg,
-          "damages!"
+          `You attacked %c${target.name} %cand inflict %c${player.dmg} damages!`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#ef1523`
         );
-        if (target.protection && !(target instanceof Assassin)) {
-          console.log(`But ${target.protectionAmount} is blocked!`);
-        }
-        console.log(target.name, "has", actualhp, "life point left!");
       } else {
         console.log(
-          player.name,
-          "attacks",
-          target.name,
-          "dealing",
-          player.dmg,
-          "damages!"
+          `%c${player.name} %cattacks %c${target.name}%c, dealing %c${player.dmg} damages!`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#ef1523`
         );
-        if (target.protection && !(target instanceof Assassin)) {
-          console.log(`But ${target.protectionAmount} is blocked!`);
+      }
+      if (!(target instanceof Assassin)) {
+        if (target.protection) {
+          console.log(
+            `But %c${target.protectionAmount} %cis blocked!`,
+            `color:#ffe135`,
+            `clear`
+          );
         }
-        console.log(target.name, "has", actualhp, "life point left!");
+        console.log(
+          `%c${target.name} %chas %c${actualhp} %clife point left!`,
+          `color:#e97451; font-style: italic`,
+          `color:wite`,
+          `color:#32cd32`,
+          `clear`
+        );
       }
     } else if (input === 2) {
       if (player.actualMana >= player.cost) {
@@ -210,38 +252,49 @@ What do you wanna do?
           if (target.protection && target instanceof Assassin) {
             if (player.user) {
               console.log(
-                `You tried to use your special ability on Sylvanas, but she wasn't there!`
+                `You tried to use your special ability on %c${target.name}%c, but she wasn't there!`,
+                `color:#e97451; font-style: italic`,
+                `clear`
               );
             } else {
               console.log(
-                `${player.name} tried to use his/her special ability on Sylvanas, but she wasn't there!`
+                `${player.name} tried to use his/her special ability on %c${target.name}%c, but she wasn't there!`,
+                `color:#e97451; font-style: italic`,
+                `clear`
               );
             }
           } else if (player.user) {
             console.log(
-              "You target",
-              target.name,
-              "with your special ability and inflict",
-              player.specialdmg,
-              "damages!"
+              `You target %c${target.name} %cwith your special ability and inflict %c${player.specialdmg} damages!`,
+              `color:#e97451; font-style: italic`,
+              `clear`,
+              `color:#ef1523`
             );
-            if (target.protection && !(target instanceof Assassin)) {
-              console.log(`But ${target.protectionAmount} is blocked!`);
-            }
-            console.log(target.name, "has", actualhp, "life point left!");
           } else {
             console.log(
-              player.name,
-              "targets",
-              target.name,
-              "with his/her special ability and deals",
-              player.specialdmg,
-              "damages!"
+              `%c${player.name} %ctargets %c${target.name} %cwith his/her special ability and deals %c${player.specialdmg} damages!`,
+              `color:#e97451; font-style: italic`,
+              `clear`,
+              `color:#e97451; font-style: italic`,
+              `clear`,
+              `color:#ef1523`
             );
-            if (target.protection && !(target instanceof Assassin)) {
-              console.log(`But ${target.protectionAmount} is blocked!`);
+          }
+          if (!(target instanceof Assassin)) {
+            if (target.protection) {
+              console.log(
+                `But %c${target.protectionAmount} %cis blocked!`,
+                `color:#ffe135`,
+                `clear`
+              );
             }
-            console.log(target.name, "has", actualhp, "life point left!");
+            console.log(
+              `%c${target.name} %chas %c${actualhp} %clife point left!`,
+              `color:#e97451; font-style: italic`,
+              `color:wite`,
+              `color:#32cd32`,
+              `clear`
+            );
           }
         }
       } else {
