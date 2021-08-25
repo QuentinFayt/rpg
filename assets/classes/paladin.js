@@ -30,7 +30,6 @@ class Paladin extends Characters {
   special(target) {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
-      let recovered;
       if (this.state !== "dead") {
         if (target.protection) {
           if (!(target instanceof Assassin)) {
@@ -41,37 +40,77 @@ class Paladin extends Characters {
         }
         if (this.hp + 5 > this.maxhp) {
           if (this.hp !== this.maxhp) {
-            console.log(
-              `${this.name} restores ${
-                this.maxhp - this.hp
-              } of his life points! He gets back up to ${
-                this.maxhp
-              } life points!`
-            );
+            if (this.user) {
+              console.log(
+                `You restore %c${
+                  this.maxhp - this.hp
+                } %cof your life! You get back up to %c${this.maxhp} %clife!`,
+                `color:#32cd32`,
+                `clear`,
+                `color:#32cd32`,
+                `clear`
+              );
+            } else {
+              console.log(
+                `%c${this.name} %crestores %c${
+                  this.maxhp - this.hp
+                } %cof his life! %c${this.name} %cgets back up to %c${
+                  this.maxhp
+                } %clife!`,
+                `color:#e97451; font-style: italic`,
+                `clear`,
+                `color:#32cd32`,
+                `clear`,
+                `color:#e97451; font-style: italic`,
+                `clear`,
+                `color:#32cd32`,
+                `clear`
+              );
+            }
             this.hp = this.maxhp;
           }
         } else {
           this.hp = this.hp + 5;
+          if (this.user) {
+            console.log(
+              `You restore %c5%c of your life! You get back up to %c${this.hp} %clife!`,
+              `color:#32cd32`,
+              `clear`,
+              `color:#32cd32`,
+              `clear`
+            );
+          } else {
+            console.log(
+              `%c${this.name} %crestores %c5%c of his life! %c${this.name} %cgets back up to %c${this.hp} %clife!`,
+              `color:#e97451; font-style: italic`,
+              `clear`,
+              `color:#32cd32`,
+              `clear`,
+              `color:#e97451; font-style: italic`,
+              `clear`,
+              `color:#32cd32`,
+              `clear`
+            );
+          }
+        }
+        if (this.user) {
           console.log(
-            `${this.name} restores 5 of his life points! He gets back up to ${this.hp} life points!`
+            `You now have %c${this.actualMana} %cmana left.`,
+            `color:#1e90ff`,
+            `clear`
+          );
+        } else {
+          console.log(
+            `%c${this.name} %cnow has %c${this.actualMana} %cmana left.`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#1e90ff`,
+            `clear`
           );
         }
-        console.log(`${this.name} now has ${this.actualMana} mana left.`);
       }
       if (target.hp <= 0) {
-        console.log(`${this.name} killed ${target.name}!`);
-        target.state = "dead";
-        if (this.actualMana !== this.mana) {
-          if (this.actualMana + 20 > this.mana) {
-            recovered = this.mana - this.actualMana;
-            console.log(`${this.name} recovers ${recovered} mana point!`);
-            this.actualMana = this.mana;
-          } else {
-            console.log(`${this.name} recovers 20 mana point!`);
-            this.actualMana = this.actualMana + 20;
-          }
-          console.log(`${this.name} now has ${this.actualMana} mana left!`);
-        }
+        super.kill(target);
       }
     }
   }

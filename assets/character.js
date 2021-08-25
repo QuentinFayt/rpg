@@ -53,31 +53,53 @@ class Characters {
   }
   recoverMana() {
     if (this.actualMana + 20 > this.mana) {
-      console.log(
-        `%c${this.name} %crecovers %c${this.mana - this.actualMana} mana! %c${
-          this.name
-        } %cnow has %c${this.mana} mana %cleft!`,
-        `color:#e97451; font-style: italic`,
-        `clear`,
-        `color:#1e90ff`,
-        `color:#e97451; font-style: italic`,
-        `clear`,
-        `color:#1e90ff`,
-        `clear`
-      );
+      if (this.player) {
+        console.log(
+          `You recover %c${
+            this.mana - this.actualMana
+          } mana%c! You now have %c${this.mana} mana %cleft!`,
+          `color:#1e90ff`,
+          `clear`,
+          `color:#1e90ff`,
+          `clear`
+        );
+      } else {
+        console.log(
+          `%c${this.name} %crecovers %c${this.mana - this.actualMana} mana! %c${
+            this.name
+          } %cnow has %c${this.mana} mana %cleft!`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#1e90ff`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#1e90ff`,
+          `clear`
+        );
+      }
       this.actualMana = this.mana;
     } else {
       this.actualMana = this.actualMana + 20;
-      console.log(
-        `%c${this.name} %crecovers %c20 mana! %c${this.name} %cnow has %c${this.actualMana} mana %cleft!`,
-        `color:#e97451; font-style: italic`,
-        `clear`,
-        `color:#1e90ff`,
-        `color:#e97451; font-style: italic`,
-        `clear`,
-        `color:#1e90ff`,
-        `clear`
-      );
+      if (this.player) {
+        console.log(
+          `You recover %c20 mana %c! You now have %c${this.actualMana} mana %cleft!`,
+          `color:#1e90ff`,
+          `clear`,
+          `color:#1e90ff`,
+          `clear`
+        );
+      } else {
+        console.log(
+          `%c${this.name} %crecovers %c20 mana! %c${this.name} %cnow has %c${this.actualMana} mana %cleft!`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#1e90ff`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#1e90ff`,
+          `clear`
+        );
+      }
     }
   }
 }
