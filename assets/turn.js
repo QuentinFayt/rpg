@@ -258,7 +258,9 @@ class Turn {
               );
             } else {
               console.log(
-                `${player.name} tried to use his/her special ability on %c${target.name}%c, but she wasn't there!`,
+                `%c${player.name} %ctried to use his/her special ability on %c${target.name}%c, but she wasn't there!`,
+                `color:#e97451; font-style: italic`,
+                `clear`,
                 `color:#e97451; font-style: italic`,
                 `clear`
               );
