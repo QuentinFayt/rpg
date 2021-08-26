@@ -14,15 +14,33 @@ class Turn {
         if (characterTurn[0].user === true) {
           this.userTurn(characterTurn[0]);
         } else {
-          console.log(
-            `%cIt's ${characterTurn[0].name}'s turn!`,
-            `font-size:15px ; font-style:bold ; text-decoration:underline ; color:#e97451`
-          );
+          if (
+            characterTurn[0] instanceof Rogue &&
+            characterTurn.wasUsed === true
+          ) {
+            console.log(
+              `%c${player.name}'s special ability grants her another turn!`,
+              `font-size:15px ; font-style:bold ; text-decoration:underline ; color:#e97451`
+            );
+          } else {
+            console.log(
+              `%cIt's ${characterTurn[0].name}'s turn!`,
+              `font-size:15px ; font-style:bold ; text-decoration:underline ; color:#e97451`
+            );
+          }
           let target = this.computerTarget(characterTurn[0]);
           this.computerAction(characterTurn[0], target[0]);
         }
       }
-      characterTurn = characterTurn.slice(1, characterTurn.length);
+      if (
+        characterTurn[0] instanceof Rogue &&
+        characterTurn[0].wasUsed === true
+      ) {
+        characterTurn.push(characterTurn[0]);
+        characterTurn = characterTurn.slice(1, characterTurn.length);
+      } else {
+        characterTurn = characterTurn.slice(1, characterTurn.length);
+      }
     }
   }
 
@@ -35,12 +53,13 @@ class Turn {
 
     survivors.forEach((character) =>
       console.log(
-        `%c${character.name} %cis still alive with %c${character.hp} hp %cand %c${character.actualMana} mana!`,
+        `%c${character.name} %cis still alive with %c${character.hp} hp %cand %c${character.actualMana} mana%c!`,
         `color:#e97451; font-style: italic`,
         `clear`,
         `color:#32cd32`,
         `clear`,
-        `color:#1e90ff`
+        `color:#1e90ff`,
+        `clear`
       )
     );
   }
@@ -53,7 +72,11 @@ class Turn {
       computerTurn.dealDamage(computerTarget);
     } else {
       if (computerTurn.needTarget) {
-        this.talkToUser(computerTurn, computerTarget, 2);
+        if (computerTurn instanceof Rogue && computerTurn.wasUsed === true) {
+          this.talkToUser(computerTurn, computerTarget, 1);
+        } else {
+          this.talkToUser(computerTurn, computerTarget, 2);
+        }
         computerTurn.special(computerTarget);
       } else {
         computerTurn.special();
@@ -92,6 +115,8 @@ class Turn {
         return computer.assassinAI(computer, target);
       } else if (computer instanceof Wizard) {
         return computer.wizardrAI(computer, target);
+      } else if (computer instanceof Rogue) {
+        return computer.rogueAI(computer, target);
       }
     } else {
       return 0;
@@ -121,69 +146,128 @@ class Turn {
     let userInput;
     let target = [];
     this.talkToUser(player, target, userInput);
-    do {
-      userInput = Math.trunc(Number(prompt("Choose a number")));
-    } while (isNaN(userInput) || userInput < 1 || userInput > 3);
-    if (userInput === 3) {
-      this.showAlivedChar();
-      this.talkToUser(player, target, userInput);
+    if (player instanceof Rogue && player.wasUsed === true) {
       do {
         userInput = Math.trunc(Number(prompt("Choose a number")));
       } while (isNaN(userInput) || userInput < 1 || userInput > 2);
-    }
-    if (userInput === 1) {
-      userInput = this.userTarget(player);
-      target = this.characters.filter(
-        (userTarget) => userTarget.name === userInput
-      );
-      this.talkToUser(player, target[0], 1);
-      player.dealDamage(target[0]);
-    } else if (userInput === 2) {
-      if (player.needTarget) {
+      if (userInput === 2) {
+        userInput = 3;
+        this.showAlivedChar();
+        this.talkToUser(player, target, userInput);
         userInput = this.userTarget(player);
         target = this.characters.filter(
           (userTarget) => userTarget.name === userInput
         );
+        this.talkToUser(player, target[0], 1);
+        player.special(target[0]);
       }
-      this.talkToUser(player, target[0], 2);
-      player.special(target[0]);
     } else {
-      player.special();
+      do {
+        userInput = Math.trunc(Number(prompt("Choose a number")));
+      } while (isNaN(userInput) || userInput < 1 || userInput > 3);
+      if (userInput === 3) {
+        this.showAlivedChar();
+        this.talkToUser(player, target, userInput);
+        do {
+          userInput = Math.trunc(Number(prompt("Choose a number")));
+        } while (isNaN(userInput) || userInput < 1 || userInput > 2);
+      }
+    }
+    if (!(player instanceof Rogue) || player.wasUsed !== true) {
+      if (userInput === 1) {
+        userInput = this.userTarget(player);
+        target = this.characters.filter(
+          (userTarget) => userTarget.name === userInput
+        );
+        this.talkToUser(player, target[0], 1);
+        player.dealDamage(target[0]);
+      } else if (userInput === 2) {
+        if (player.needTarget) {
+          userInput = this.userTarget(player);
+          target = this.characters.filter(
+            (userTarget) => userTarget.name === userInput
+          );
+          this.talkToUser(player, target[0], 2);
+          player.special(target[0]);
+        } else {
+          player.special();
+        }
+      }
     }
   }
 
   talkToUser(player, target, input) {
     if (input === undefined) {
-      console.log(
-        `It's your turn! You currently have %c${player.hp} life points %cand %c${player.actualMana} mana.
+      if (player instanceof Rogue && player.wasUsed === true) {
+        console.log(
+          `%cYour special ability grants you another turn!`,
+          `font-size:15px ; font-style:bold ; text-decoration:underline ; color:#e97451`
+        );
+        console.log(
+          `You currently have %c${player.hp} life points %cand %c${player.actualMana} mana.
+        
+%cWhat do you wanna do?
+1) Attack for %c${player.specialdmg} %cdamages
+2) Get more info`,
+          `color:#32cd32`,
+          `clear`,
+          `color:#1e90ff`,
+          `clear`,
+          `color:#ef1523`,
+          `clear`
+        );
+      } else {
+        console.log(
+          `%cIt's your turn!`,
+          `font-size:15px ; font-style:bold ; text-decoration:underline ; color:#e97451`
+        );
+        console.log(
+          `You currently have %c${player.hp} life points %cand %c${player.actualMana} mana.
         
 %cWhat do you wanna do?
 1) Attack for %c${player.dmg} %cdamages
 2) Use your special ability
 3) Get more info`,
-        `color:#32cd32`,
-        `clear`,
-        `color:#1e90ff`,
-        `clear`,
-        `color:#ef1523`,
-        `clear`
-      );
+          `color:#32cd32`,
+          `clear`,
+          `color:#1e90ff`,
+          `clear`,
+          `color:#ef1523`,
+          `clear`
+        );
+      }
     } else if (input === 3) {
-      console.log(
-        `It's still your turn! Your currently have %c${player.hp} life points %cand %c${player.actualMana} mana.
+      if (player instanceof Rogue && player.wasUsed === true) {
+        console.log(
+          `
+You currently have %c${player.hp} life points %cand %c${player.actualMana} mana%c.`,
+          `color:#32cd32`,
+          `clear`,
+          `color:#1e90ff`,
+          `clear`
+        );
+      } else {
+        console.log(
+          `It's still your turn! Your currently have %c${player.hp} life points %cand %c${player.actualMana} mana.
 
 %cWhat do you wanna do?
 1) Attack for %c${player.dmg} %cdamages
 2) Use your special ability`,
-        `color:#32cd32`,
-        `clear`,
-        `color:#1e90ff`,
-        `clear`,
-        `color:#ef1523`,
-        `clear`
-      );
+          `color:#32cd32`,
+          `clear`,
+          `color:#1e90ff`,
+          `clear`,
+          `color:#ef1523`,
+          `clear`
+        );
+      }
     } else if (input === 1) {
-      let actualhp = target.hp - player.dmg;
+      let actualhp = target.hp;
+      if (player instanceof Rogue && player.wasUsed === true) {
+        actualhp -= player.specialdmg;
+      } else {
+        actualhp -= player.dmg;
+      }
       if (target.protection && !(target instanceof Assassin)) {
         actualhp = actualhp + target.protectionAmount;
       }
@@ -207,21 +291,41 @@ class Turn {
           );
         }
       } else if (player.user) {
-        console.log(
-          `You attacked %c${target.name} %cand inflict %c${player.dmg} damages!`,
-          `color:#e97451; font-style: italic`,
-          `clear`,
-          `color:#ef1523`
-        );
+        if (player instanceof Rogue && player.wasUsed === true) {
+          console.log(
+            `You attacked %c${target.name} %cand inflict %c${player.specialdmg} damages!`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#ef1523`
+          );
+        } else {
+          console.log(
+            `You attacked %c${target.name} %cand inflict %c${player.dmg} damages!`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#ef1523`
+          );
+        }
       } else {
-        console.log(
-          `%c${player.name} %cattacks %c${target.name}%c, dealing %c${player.dmg} damages!`,
-          `color:#e97451; font-style: italic`,
-          `clear`,
-          `color:#e97451; font-style: italic`,
-          `clear`,
-          `color:#ef1523`
-        );
+        if (player instanceof Rogue && player.wasUsed === true) {
+          console.log(
+            `%c${player.name} %cattacks %c${target.name}%c, dealing %c${player.specialdmg} damages!`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#ef1523`
+          );
+        } else {
+          console.log(
+            `%c${player.name} %cattacks %c${target.name}%c, dealing %c${player.dmg} damages!`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#e97451; font-style: italic`,
+            `clear`,
+            `color:#ef1523`
+          );
+        }
       }
       if (!(target instanceof Assassin)) {
         if (target.protection) {
