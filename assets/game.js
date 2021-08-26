@@ -19,7 +19,7 @@ class Game {
         `font-size:20px ; font-style:bold ; text-decoration:underline ; color:#77f0ff`
       );
       new Turn(this.listOfFighters);
-      this.resetProtectiveState(this.characters);
+      this.resetProtectiveState(this.listOfFighters);
 
       if (
         this.listOfFighters.filter((alive) => alive.state !== "dead").length ===
@@ -152,7 +152,7 @@ You have:
   }
 
   whoWon() {
-    let competitors = this.characters.filter(
+    let competitors = this.listOfFighters.filter(
       (alive) => alive.state === "alive"
     );
     let winner = competitors[0];
