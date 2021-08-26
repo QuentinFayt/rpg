@@ -150,6 +150,14 @@ class Turn {
       do {
         userInput = Math.trunc(Number(prompt("Choose a number")));
       } while (isNaN(userInput) || userInput < 1 || userInput > 2);
+      if (userInput === 1) {
+        userInput = this.userTarget(player);
+        target = this.characters.filter(
+          (userTarget) => userTarget.name === userInput
+        );
+        this.talkToUser(player, target[0], 1);
+        player.special(target[0]);
+      }
       if (userInput === 2) {
         userInput = 3;
         this.showAlivedChar();
@@ -240,7 +248,7 @@ class Turn {
       if (player instanceof Rogue && player.wasUsed === true) {
         console.log(
           `
-You currently have %c${player.hp} life points %cand %c${player.actualMana} mana%c.`,
+It's still your turn! You currently have %c${player.hp} life points %cand %c${player.actualMana} mana%c.`,
           `color:#32cd32`,
           `clear`,
           `color:#1e90ff`,
