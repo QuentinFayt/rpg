@@ -32,9 +32,13 @@ class Turn {
           this.computerAction(characterTurn[0], target[0]);
         }
       }
+      let testForRogue = this.characters.filter(
+        (alive) => alive.state === "alive"
+      ).length;
       if (
         characterTurn[0] instanceof Rogue &&
-        characterTurn[0].wasUsed === true
+        characterTurn[0].wasUsed === true &&
+        testForRogue > 1
       ) {
         characterTurn.push(characterTurn[0]);
         characterTurn = characterTurn.slice(1, characterTurn.length);
