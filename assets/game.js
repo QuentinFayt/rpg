@@ -112,9 +112,11 @@ You have:
     let assassin = charactersList.filter(
       (character) => character instanceof Assassin
     );
-    if (assassin[0].wasUsed === true) {
-      assassin[0].protection = true;
-      assassin[0].wasUsed = false;
+    if (assassin.length >= 1) {
+      if (assassin[0].wasUsed === true) {
+        assassin[0].protection = true;
+        assassin[0].wasUsed = false;
+      }
     }
   }
 
