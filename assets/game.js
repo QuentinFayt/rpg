@@ -2,9 +2,11 @@ class Game {
   constructor() {
     console.clear();
     this.turnleft = 10;
+    this.numberOfFighters = 5;
     this.state = "ongoing";
     this.characters = this.createChar();
-    this.selectYourChampion();
+    this.listOfFighters = this.randomizePullOfCharacters();
+    this.displayListOfFighters(this.listOfFighters);
     this.newTurn();
     this.whoWon();
   }
@@ -16,32 +18,24 @@ class Game {
         `%cRound ${countTurn}`,
         `font-size:20px ; font-style:bold ; text-decoration:underline ; color:#77f0ff`
       );
-      new Turn(this.characters);
-      this.characters.forEach((player) => (player.protection = false));
-      if (this.characters[4].wasUsed === true) {
-        this.characters[4].protection = true;
-        this.characters[4].wasUsed = false;
-      }
-      this.turnleft--;
+      new Turn(this.listOfFighters);
+      this.resetProtectiveState(this.characters);
 
       if (
-        this.characters.filter((alive) => alive.state !== "dead").length ===
+        this.listOfFighters.filter((alive) => alive.state !== "dead").length ===
           1 ||
         this.turnleft === 0
       ) {
         this.state = "over";
         console.log("%cThe fight is over!", `font-size:15px ; font-style:bold`);
       } else {
+        this.turnleft--;
         countTurn++;
       }
     } while (this.state === "ongoing");
   }
 
   createChar() {
-    console.log(
-      `%cThe fighters stepped in the arena!!!`,
-      `font-size:20px ; font-style:bold ; color:#77f0ff`
-    );
     return [
       new Fighter("Varian"),
       new Paladin("Arthas"),
@@ -49,6 +43,7 @@ class Game {
       new Berserker("Garrosh"),
       new Assassin("Sylvanas"),
       new Wizard("Medivh"),
+      new Rogue("Valeera"),
     ];
   }
 
@@ -89,14 +84,70 @@ class Game {
     );
     userInput = userInput - 1;
     this.characters[userInput].user = true;
+    this.characters[userInput].selected = true;
+    console.clear();
 
     console.log(
-      `You chose ${this.characters[userInput].name}!\n
-You have:\n
--${this.characters[userInput].hp} life points
--${this.characters[userInput].mana} mana
--You can deal ${this.characters[userInput].dmg} damage per turn
--${this.characters[userInput].description()}`
+      `You chose %c${this.characters[userInput].name}%c!
+
+You have:
+-%c${this.characters[userInput].hp} %clife points
+-%c${this.characters[userInput].mana} %cmana
+-You can deal %c${this.characters[userInput].dmg} %cdamage per turn
+-${this.characters[userInput].description()}`,
+      `color:#e97451; font-style: italic`,
+      `clear`,
+      `color:#32cd32`,
+      `clear`,
+      `color:#1e90ff`,
+      `clear`,
+      `color:#ef1523`,
+      `clear`
+    );
+    return this.characters[userInput];
+  }
+
+  resetProtectiveState(charactersList) {
+    charactersList.forEach((player) => (player.protection = false));
+    let assassin = charactersList.filter(
+      (character) => character instanceof Assassin
+    );
+    if (assassin[0].wasUsed === true) {
+      assassin[0].protection = true;
+      assassin[0].wasUsed = false;
+    }
+  }
+
+  shuffle(array) {
+    return array.sort((a, b) => 0.5 - Math.random());
+  }
+
+  randomizePullOfCharacters() {
+    let user = this.selectYourChampion();
+    let listOfFighters = [];
+
+    for (let i = 0; i < this.numberOfFighters - 1; i++) {
+      let notSelected = this.characters.filter(
+        (character) => character.selected !== true
+      );
+      listOfFighters[i] = this.shuffle(notSelected)[0];
+      notSelected[0].selected = true;
+    }
+    listOfFighters.push(user);
+    return listOfFighters.reverse();
+  }
+
+  displayListOfFighters(listofChar) {
+    console.log(
+      `%cThe fighters stepped in the arena!!!`,
+      `font-size:20px ; font-style:bold ; color:#77f0ff`
+    );
+    listofChar.forEach((character) =>
+      console.log(
+        `%c${character.name} %centers the arena!`,
+        `color:#e97451; font-style: italic`,
+        `clear`
+      )
     );
   }
 

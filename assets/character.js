@@ -25,6 +25,7 @@ class Characters {
     this.protectionAmount = protectionAmount;
     this.actualMana = this.mana;
     this.user = false;
+    this.selected = false;
   }
   dealDamage(target) {
     if (this.state !== "dead") {
