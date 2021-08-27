@@ -1,4 +1,7 @@
-class Rogue extends Characters {
+import { Character } from "../character";
+import { Assassin } from "./assassin";
+
+export class Rogue extends Character {
   constructor(
     name,
     hp = 10,
@@ -41,7 +44,10 @@ class Rogue extends Characters {
         this.actualMana = this.actualMana - this.cost;
         if (this.state !== "dead") {
           if (target.protection) {
-            target.hp = target.hp - (this.specialdmg - target.protectionAmount);
+            if (!(target instanceof Assassin)) {
+              target.hp =
+                target.hp - (this.specialdmg - target.protectionAmount);
+            }
           } else {
             target.hp = target.hp - this.specialdmg;
           }

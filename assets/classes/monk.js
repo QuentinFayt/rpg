@@ -1,4 +1,6 @@
-class Monk extends Characters {
+import { Character } from "../character";
+
+export class Monk extends Character {
   constructor(
     name,
     hp = 10,

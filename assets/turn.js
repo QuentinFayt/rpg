@@ -1,4 +1,14 @@
-class Turn {
+import {
+  Assassin,
+  Berserker,
+  Fighter,
+  Monk,
+  Paladin,
+  Rogue,
+  Wizard,
+} from "./classes";
+
+export class Turn {
   constructor(characters) {
     this.characters = characters;
     this.whoseTurn();

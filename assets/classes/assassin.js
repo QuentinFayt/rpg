@@ -1,4 +1,6 @@
-class Assassin extends Characters {
+import { Character } from "../character";
+
+export class Assassin extends Character {
   constructor(
     name,
     hp = 8,

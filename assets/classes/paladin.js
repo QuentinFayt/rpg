@@ -1,4 +1,7 @@
-class Paladin extends Characters {
+import { Character } from "../character";
+import { Assassin } from "./assassin";
+
+export class Paladin extends Character {
   constructor(
     name,
     hp = 16,

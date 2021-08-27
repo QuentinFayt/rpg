@@ -1,5 +1,15 @@
+import {
+  Assassin,
+  Berserker,
+  Fighter,
+  Monk,
+  Paladin,
+  Rogue,
+  Wizard,
+} from "./classes";
+
 //Joueur//
-class Characters {
+export class Character {
   constructor(
     name,
     hp,

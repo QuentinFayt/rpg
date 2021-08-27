@@ -1,4 +1,6 @@
-class Berserker extends Characters {
+import { Character } from "../character";
+
+export class Berserker extends Character {
   constructor(
     name,
     hp = 9,

@@ -1,18 +1,20 @@
-import hello from "./helper.js";
+import { Assassin, Berserker, Fighter, Monk, Paladin, Rogue, Wizard } from './classes';
+import { Turn } from './Turn';
+import { shuffle } from './helper';
+import { promptUser } from './helper';
 
-class Game {
+export default class Game {
   constructor() {
     console.clear();
     this.turnleft = 10;
     this.numberOfFighters = 5;
-    this.state = "ongoing";
-    this.characters = this.createChar();
+    this.state = 'ongoing';
+    this.characters = this.createCharacters();
     this.listOfFighters = this.randomizePullOfCharacters();
     this.displayListOfFighters(this.listOfFighters);
     this.newTurn();
     this.whoWon();
   }
-
   /**
    * Game loading method
    */
@@ -27,31 +29,30 @@ class Game {
       this.resetProtectiveState(this.listOfFighters);
 
       if (
-        this.listOfFighters.filter((alive) => alive.state !== "dead").length ===
-          1 ||
+        this.listOfFighters.filter((alive) => alive.state !== 'dead').length === 1 ||
         this.turnleft === 0
       ) {
-        this.state = "over";
-        console.log("%cThe fight is over!", `font-size:15px ; font-style:bold`);
+        this.state = 'over';
+        console.log('%cThe fight is over!', `font-size:15px ; font-style:bold`);
       } else {
         this.turnleft--;
         countTurn++;
       }
-    } while (this.state === "ongoing");
+    } while (this.state === 'ongoing');
   }
   /**
    * Hero class loading method
    * @return {array} list of all playable characters
    */
-  createChar() {
+  createCharacters() {
     return [
-      new Fighter("Varian"),
-      new Paladin("Arthas"),
-      new Monk("Shen"),
-      new Berserker("Garrosh"),
-      new Assassin("Sylvanas"),
-      new Wizard("Medivh"),
-      new Rogue("Valeera"),
+      new Fighter('Varian'),
+      new Paladin('Arthas'),
+      new Monk('Shen'),
+      new Berserker('Garrosh'),
+      new Assassin('Sylvanas'),
+      new Wizard('Medivh'),
+      new Rogue('Valeera'),
     ];
   }
   /**
@@ -59,15 +60,10 @@ class Game {
    * @return {object} user's selection
    */
   selectYourChampion() {
-    console.log(
-      `%cWhat do you wanna play?`,
-      `font-size:15px ; font-style:bold ; color:#77f0ff`
-    );
+    console.log(`%cWhat do you wanna play?`, `font-size:15px ; font-style:bold ; color:#77f0ff`);
     this.characters.forEach((character, index) =>
       console.log(
-        `${index + 1}) %c${character.name} %cthe %c${
-          character.constructor.name
-        } 
+        `${index + 1}) %c${character.name} %cthe %c${character.constructor.name} 
 %chp: %c${character.hp} 
 %cdmg per turn: %c${character.dmg}
 %cmax mana: %c${character.mana}
@@ -84,17 +80,22 @@ class Game {
         `clear`
       )
     );
-    let userInput;
-    let numberOfCharacters = this.characters.length;
-    do {
-      // handle input with commas
-      userInput = Math.trunc(Number(prompt("Choose a number")));
-    } while (
-      isNaN(userInput) ||
-      userInput < numberOfCharacters - numberOfCharacters + 1 ||
-      userInput > numberOfCharacters
+    // let userInput;
+    // let numberOfthis.Characters = this.this.characters.length;
+    // do {
+    //   // handle input with commas
+    //   userInput = Math.trunc(Number(prompt('Choose a number')));
+    // } while (
+    //   isNaN(userInput) ||
+    //   userInput < numberOfthis.Characters - numberOfthis.Characters + 1 ||
+    //   userInput > numberOfthis.Characters
+    // );
+    // userInput = userInput - 1;
+    let userInput = promptUser(
+      'Enter your character name or the corresponding number',
+      this.characters.map((character) => character.name)
     );
-    userInput = userInput - 1;
+    console.log(this.characters);
     this.characters[userInput].user = true;
     this.characters[userInput].selected = true;
     console.clear();
@@ -116,6 +117,7 @@ You have:
       `color:#ef1523`,
       `clear`
     );
+    console.log();
     return this.characters[userInput];
   }
   /**
@@ -124,9 +126,7 @@ You have:
    */
   resetProtectiveState(charactersList) {
     charactersList.forEach((player) => (player.protection = false));
-    let assassin = charactersList.filter(
-      (character) => character instanceof Assassin
-    );
+    let assassin = charactersList.filter((character) => character instanceof Assassin);
     if (assassin.length >= 1) {
       if (assassin[0].wasUsed === true) {
         assassin[0].protection = true;
@@ -151,10 +151,8 @@ You have:
     let listOfFighters = [];
 
     for (let i = 0; i < this.numberOfFighters - 1; i++) {
-      let notSelected = this.characters.filter(
-        (character) => character.selected !== true
-      );
-      listOfFighters[i] = this.shuffle(notSelected)[0];
+      let notSelected = this.characters.filter((character) => character.selected !== true);
+      listOfFighters[i] = shuffle(notSelected)[0];
       notSelected[0].selected = true;
     }
     listOfFighters.push(user);
@@ -181,9 +179,7 @@ You have:
    * checking and displaying who won method
    */
   whoWon() {
-    let competitors = this.listOfFighters.filter(
-      (alive) => alive.state === "alive"
-    );
+    let competitors = this.listOfFighters.filter((alive) => alive.state === 'alive');
     let winner = competitors[0];
 
     for (let i = 1; i < competitors.length; i++) {
@@ -192,10 +188,7 @@ You have:
       }
     }
     if (winner.user === true) {
-      console.log(
-        `%cCongratulation, you won!`,
-        `font-size:15px ; font-style:bold`
-      );
+      console.log(`%cCongratulation, you won!`, `font-size:15px ; font-style:bold`);
     } else {
       console.log(`%c${winner.name} won!`, `font-size:15px ; font-style:bold`);
     }
