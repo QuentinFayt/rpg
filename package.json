@@ -1,0 +1,14 @@
+{
+  "name": "rpg",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/QuentinFayt/rpg.git",
+  "author": "QuentinFayt <quentin.fayt.p@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
+  },
+    "scripts": {
+    "dev": "parcel index.html"
+  }
+}

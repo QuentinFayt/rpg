@@ -126,9 +126,9 @@ class Turn {
     }
   }
   /**
-   * Loading
-   * @param  {} computer
-   * @param  {} target
+   * Loading intelligence method from instance
+   * @param  {object} computer : computer
+   * @param  {object} target
    */
   computerAI(computer, target) {
     if (computer.actualMana - computer.cost >= 0) {

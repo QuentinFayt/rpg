@@ -1,3 +1,5 @@
+import hello from "./helper.js";
+
 class Game {
   constructor() {
     console.clear();
@@ -10,6 +12,7 @@ class Game {
     this.newTurn();
     this.whoWon();
   }
+
   /**
    * Game loading method
    */
@@ -84,6 +87,7 @@ class Game {
     let userInput;
     let numberOfCharacters = this.characters.length;
     do {
+      // handle input with commas
       userInput = Math.trunc(Number(prompt("Choose a number")));
     } while (
       isNaN(userInput) ||
@@ -135,9 +139,9 @@ You have:
    * @param  {array} array : array to shuffle
    * @return {array} array randomized
    */
-  shuffle(array) {
-    return array.sort((a, b) => 0.5 - Math.random());
-  }
+  // shuffle(array) {
+  //   return array.sort((a, b) => 0.5 - Math.random());
+  // }
   /**
    * randomization of heroes list w/o user selection method
    * @return {array} list of heroes for the game with user at 0 index
