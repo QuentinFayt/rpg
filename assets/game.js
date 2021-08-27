@@ -10,7 +10,9 @@ class Game {
     this.newTurn();
     this.whoWon();
   }
-
+  /**
+   * Game loading method
+   */
   newTurn() {
     let countTurn = 1;
     do {
@@ -34,7 +36,10 @@ class Game {
       }
     } while (this.state === "ongoing");
   }
-
+  /**
+   * Hero class loading method
+   * @return {array} list of all playable characters
+   */
   createChar() {
     return [
       new Fighter("Varian"),
@@ -46,7 +51,10 @@ class Game {
       new Rogue("Valeera"),
     ];
   }
-
+  /**
+   * User's character selection method
+   * @return {object} user's selection
+   */
   selectYourChampion() {
     console.log(
       `%cWhat do you wanna play?`,
@@ -89,7 +97,6 @@ class Game {
 
     console.log(
       `You chose %c${this.characters[userInput].name}%c!
-
 You have:
 -%c${this.characters[userInput].hp} %clife points
 -%c${this.characters[userInput].mana} %cmana
@@ -106,7 +113,10 @@ You have:
     );
     return this.characters[userInput];
   }
-
+  /**
+   * Resetting all temporary protective state before next turn method
+   * @param {array} charactersList : list of in current game characters
+   */
   resetProtectiveState(charactersList) {
     charactersList.forEach((player) => (player.protection = false));
     let assassin = charactersList.filter(
@@ -119,11 +129,18 @@ You have:
       }
     }
   }
-
+  /**
+   * Randomize array method
+   * @param  {array} array : array to shuffle
+   * @return {array} array randomized
+   */
   shuffle(array) {
     return array.sort((a, b) => 0.5 - Math.random());
   }
-
+  /**
+   * randomization of heroes list w/o user selection method
+   * @return {array} list of heroes for the game with user at 0 index
+   */
   randomizePullOfCharacters() {
     let user = this.selectYourChampion();
     let listOfFighters = [];
@@ -138,7 +155,10 @@ You have:
     listOfFighters.push(user);
     return listOfFighters.reverse();
   }
-
+  /**
+   * displaying list of playable character for user selection method
+   * @param  {array} listofChar : list of all playable character
+   */
   displayListOfFighters(listofChar) {
     console.log(
       `%cThe fighters stepped in the arena!!!`,
@@ -152,7 +172,9 @@ You have:
       )
     );
   }
-
+  /**
+   * checking and displaying who won method
+   */
   whoWon() {
     let competitors = this.listOfFighters.filter(
       (alive) => alive.state === "alive"

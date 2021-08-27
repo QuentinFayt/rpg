@@ -27,6 +27,10 @@ class Characters {
     this.user = false;
     this.selected = false;
   }
+  /**
+   * Dealing normal damage method
+   * @param  target object :  user/computer's target
+   */
   dealDamage(target) {
     if (this.state !== "dead") {
       let lifetmp = target.hp;
@@ -42,6 +46,11 @@ class Characters {
       }
     }
   }
+  /**
+   * Displaying the kill and calling the right method after a kill is done
+   * @param  {object} target : player/computer's target
+   * @param  {int} lifetmp : life before the kill for Berserker's special method
+   */
   kill(target, lifetmp) {
     console.log(`%c${this.name} killed ${target.name}!`, `color:#ff4646`);
     target.state = "dead";
@@ -52,6 +61,9 @@ class Characters {
       this.rageleech(lifetmp);
     }
   }
+  /**
+   * Common to all character mana recovery method if a kill is done
+   */
   recoverMana() {
     if (this.actualMana + 20 > this.mana) {
       if (this.player) {
