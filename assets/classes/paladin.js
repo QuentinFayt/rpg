@@ -1,7 +1,7 @@
 class Paladin extends Characters {
   constructor(
     name,
-    hp = 16,
+    hp = 1600,
     dmg = 3,
     mana = 160,
     cost = 40,

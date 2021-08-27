@@ -16,13 +16,6 @@ class Game {
   newTurn() {
     let countTurn = 1;
     do {
-      console.log(
-        `%cRound ${countTurn}`,
-        `font-size:20px ; font-style:bold ; text-decoration:underline ; color:#77f0ff`
-      );
-      new Turn(this.listOfFighters);
-      this.resetProtectiveState(this.listOfFighters);
-
       if (
         this.listOfFighters.filter((alive) => alive.state !== "dead").length ===
           1 ||
@@ -31,7 +24,13 @@ class Game {
         this.state = "over";
         console.log("%cThe fight is over!", `font-size:15px ; font-style:bold`);
       } else {
+        console.log(
+          `%cRound ${countTurn}`,
+          `font-size:20px ; font-style:bold ; text-decoration:underline ; color:#77f0ff`
+        );
         this.turnleft--;
+        new Turn(this.listOfFighters);
+        this.resetProtectiveState(this.listOfFighters);
         countTurn++;
       }
     } while (this.state === "ongoing");

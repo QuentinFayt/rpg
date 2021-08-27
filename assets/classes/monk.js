@@ -1,11 +1,11 @@
 class Monk extends Characters {
   constructor(
     name,
-    hp = 10,
+    hp = 1000,
     dmg = 2,
     mana = 200,
     cost = 25,
-    maxhp = 10,
+    maxhp = 1000,
     specialdmg = 0,
     needTarget = false,
     protection = false,
