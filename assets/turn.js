@@ -3,7 +3,9 @@ class Turn {
     this.characters = characters;
     this.whoseTurn();
   }
-
+  /**
+   * all of one turn actions loading method
+   */
   whoseTurn() {
     let characterTurn = this.shuffle(
       this.characters.filter((alive) => alive.state === "alive")
@@ -32,9 +34,13 @@ class Turn {
           this.computerAction(characterTurn[0], target[0]);
         }
       }
+      let testForRogue = this.characters.filter(
+        (alive) => alive.state === "alive"
+      ).length;
       if (
         characterTurn[0] instanceof Rogue &&
-        characterTurn[0].wasUsed === true
+        characterTurn[0].wasUsed === true &&
+        testForRogue > 1
       ) {
         characterTurn.push(characterTurn[0]);
         characterTurn = characterTurn.slice(1, characterTurn.length);
@@ -43,11 +49,17 @@ class Turn {
       }
     }
   }
-
+  /**
+   * Randomize array method
+   * @param  {array} array : array to shuffle
+   * @return {array} array randomized
+   */
   shuffle(array) {
     return array.sort((a, b) => 0.5 - Math.random());
   }
-
+  /**
+   * Display all still alived characters method
+   */
   showAlivedChar() {
     let survivors = this.characters.filter((alive) => alive.state === "alive");
 
@@ -63,7 +75,11 @@ class Turn {
       )
     );
   }
-
+  /**
+   * Loading all others method necessary for a computer to play method
+   * @param  {object} computerTurn : computer currently playing
+   * @param  {object} computerTarget : computer's target
+   */
   computerAction(computerTurn, computerTarget) {
     let computerDecision = this.computerAI(computerTurn, computerTarget);
 
@@ -83,16 +99,25 @@ class Turn {
       }
     }
   }
-
-  computerTarget(me) {
+  /**
+   * Computer's target selecting method
+   * @param  {object} computer : computer currently playing
+   * @return {array} return array of randomized valuable targets
+   */
+  computerTarget(computer) {
     let target = this.characters
       .filter((alive) => alive.state === "alive")
-      .filter((targetable) => targetable.name !== me.name);
-    let isItKillable = target.filter((current) => current.hp - me.dmg <= 0);
-    let isItKillableWithSpecial = target.filter(
-      (current) => current.hp - me.specialdmg <= 0
+      .filter((targetable) => targetable.name !== computer.name);
+    let isItKillable = target.filter(
+      (current) => current.hp - computer.dmg <= 0
     );
-    if (isItKillableWithSpecial.length > 0 && me.actualMana - me.cost >= 0) {
+    let isItKillableWithSpecial = target.filter(
+      (current) => current.hp - computer.specialdmg <= 0
+    );
+    if (
+      isItKillableWithSpecial.length > 0 &&
+      computer.actualMana - computer.cost >= 0
+    ) {
       return (target = this.shuffle(isItKillableWithSpecial));
     } else if (isItKillable.length > 0) {
       return (target = this.shuffle(isItKillable));
@@ -100,24 +125,14 @@ class Turn {
       return (target = this.shuffle(target));
     }
   }
-
+  /**
+   * Loading
+   * @param  {} computer
+   * @param  {} target
+   */
   computerAI(computer, target) {
     if (computer.actualMana - computer.cost >= 0) {
-      if (computer instanceof Paladin) {
-        return computer.paladinAI(computer, target);
-      } else if (computer instanceof Monk) {
-        return computer.monkAI(computer);
-      } else if (computer instanceof Fighter) {
-        return computer.fighterAI(computer, target);
-      } else if (computer instanceof Berserker) {
-        return computer.berserkerAI(computer, target);
-      } else if (computer instanceof Assassin) {
-        return computer.assassinAI(computer, target);
-      } else if (computer instanceof Wizard) {
-        return computer.wizardrAI(computer, target);
-      } else if (computer instanceof Rogue) {
-        return computer.rogueAI(computer, target);
-      }
+      return computer.artificialIntelligence(computer, target);
     } else {
       return 0;
     }
@@ -150,6 +165,14 @@ class Turn {
       do {
         userInput = Math.trunc(Number(prompt("Choose a number")));
       } while (isNaN(userInput) || userInput < 1 || userInput > 2);
+      if (userInput === 1) {
+        userInput = this.userTarget(player);
+        target = this.characters.filter(
+          (userTarget) => userTarget.name === userInput
+        );
+        this.talkToUser(player, target[0], 1);
+        player.special(target[0]);
+      }
       if (userInput === 2) {
         userInput = 3;
         this.showAlivedChar();
@@ -240,7 +263,7 @@ class Turn {
       if (player instanceof Rogue && player.wasUsed === true) {
         console.log(
           `
-You currently have %c${player.hp} life points %cand %c${player.actualMana} mana%c.`,
+It's still your turn! You currently have %c${player.hp} life points %cand %c${player.actualMana} mana%c.`,
           `color:#32cd32`,
           `clear`,
           `color:#1e90ff`,
@@ -249,7 +272,6 @@ You currently have %c${player.hp} life points %cand %c${player.actualMana} mana%
       } else {
         console.log(
           `It's still your turn! Your currently have %c${player.hp} life points %cand %c${player.actualMana} mana.
-
 %cWhat do you wanna do?
 1) Attack for %c${player.dmg} %cdamages
 2) Use your special ability`,

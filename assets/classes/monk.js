@@ -24,9 +24,16 @@ class Monk extends Characters {
       protectionAmount
     );
   }
+  /**
+   * Displaying to user hero's special ability's method
+   */
   description() {
     return `${this.name}'s special ability is "Heal" : for ${this.cost} mana, ${this.name} attempts to use his ki to heal himself from up to 8 life points.`;
   }
+  /**
+   * Hero's special ability's method
+   * @param  {object} target : user/computer's target
+   */
   special() {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
@@ -104,7 +111,12 @@ class Monk extends Characters {
       }
     }
   }
-  monkAI(computer) {
+  /**
+   * Computer's thinking's method
+   * @param  {object} computer : computer currently playing
+   * @return {int} 0 or 1 => 0 for normal attack | 1 for special attack
+   */
+  artificialIntelligence(computer) {
     if (computer.hp === computer.maxhp) {
       return 0;
     } else if (computer.hp <= computer.maxhp / 2) {

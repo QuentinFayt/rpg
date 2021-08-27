@@ -25,9 +25,16 @@ class Assassin extends Characters {
     );
     this.wasUsed = false;
   }
+  /**
+   * Displaying to user hero's special ability's method
+   */
   description() {
     return `${this.name}'s special ability is "Shadow hit" : for ${this.cost} mana, ${this.name} strikes viciously for ${this.specialdmg} damages and takes the opportunity from her target's screaming giving her a distraction to hide into the shadows, making her ennemis unable to find her next turn.`;
   }
+  /**
+   * Hero's special ability's method
+   * @param  {object} target : user/computer's target
+   */
   special(target) {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
@@ -59,7 +66,13 @@ class Assassin extends Characters {
       }
     }
   }
-  assassinAI(computer, target) {
+  /**
+   * Computer's thinking's method
+   * @param  {object} computer : computer currently playing
+   * @param  {object} target : computer's target
+   * @return {int} 0 or 1 => 0 for normal attack | 1 for special attack
+   */
+  artificialIntelligence(computer, target) {
     if (computer.hp <= 5) {
       return 1;
     } else if (target.hp - computer.specialdmg <= 0) {
