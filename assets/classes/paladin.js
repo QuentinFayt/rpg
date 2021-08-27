@@ -24,9 +24,16 @@ class Paladin extends Characters {
       protectionAmount
     );
   }
+  /**
+   * Displaying to user hero's special ability's method
+   */
   description() {
     return `${this.name}'s special ability is "Healing Lighting" : for ${this.cost} mana, ${this.name} uses holy light to inflicts ${this.specialdmg} damages to his target and healing himself for 5 life points in the process.`;
   }
+  /**
+   * Hero's special ability's method
+   * @param  {object} target : user/computer's target
+   */
   special(target) {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
@@ -114,7 +121,13 @@ class Paladin extends Characters {
       }
     }
   }
-  paladinAI(computer, target) {
+  /**
+   * Computer's thinking's method
+   * @param  {object} computer : computer currently playing
+   * @param  {object} target : computer's target
+   * @return {int} 0 or 1 => 0 for normal attack | 1 for special attack
+   */
+  artificialIntelligence(computer, target) {
     if (target.hp - computer.specialdmg <= 0) {
       if (target.hp - computer.dmg <= 0 && computer.hp > computer.maxhp - 5) {
         return 0;

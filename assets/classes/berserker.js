@@ -25,9 +25,16 @@ class Berserker extends Characters {
     );
     this.rage = false;
   }
+  /**
+   * Displaying to user hero's special ability's method
+   */
   description() {
     return `${this.name}'s special ability is "Rage" : for ${this.cost} mana but 1 life point, ${this.name} hurts himself to awake his battle spirit, enraging himself and giving him +1 damage point until the end of the fight. If ${this.name} kills an opponent while being enraged, he leeches half of the damage done.`;
   }
+  /**
+   * Hero's special ability's method
+   * @param  {object} target : user/computer's target
+   */
   special() {
     if (this.hp !== 1) {
       if (this.user) {
@@ -66,7 +73,13 @@ You get enraged! Your damages increase for %c1%c!`,
       );
     }
   }
-  berserkerAI(computer, target) {
+  /**
+   * Computer's thinking's method
+   * @param  {object} computer : computer currently playing
+   * @param  {object} target : computer's target
+   * @return {int} 0 or 1 => 0 for normal attack | 1 for special attack
+   */
+  artificialIntelligence(computer, target) {
     if (target.hp - computer.dmg <= 0) {
       return 0;
     } else if (computer.hp > 5) {

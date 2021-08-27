@@ -24,9 +24,16 @@ class Wizard extends Characters {
       protectionAmount
     );
   }
+  /**
+   * Displaying to user hero's special ability's method
+   */
   description() {
     return `${this.name}'s special ability is "Fire Ball" : for ${this.cost} mana, ${this.name} uses his arcane powers to invoke a ball of flame and throw it to his ennemy, dealing ${this.specialdmg} damages!`;
   }
+  /**
+   * Hero's special ability's method
+   * @param  {object} target : user/computer's target
+   */
   special(target) {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
@@ -59,7 +66,13 @@ class Wizard extends Characters {
       }
     }
   }
-  wizardrAI(computer, target) {
+  /**
+   * Computer's thinking's method
+   * @param  {object} computer : computer currently playing
+   * @param  {object} target : computer's target
+   * @return {int} 0 or 1 => 0 for normal attack | 1 for special attack
+   */
+  artificialIntelligence(computer, target) {
     if (target.hp - computer.specialdmg <= 0) {
       if (target.hp - computer.dmg <= 0) {
         return 0;

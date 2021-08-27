@@ -24,9 +24,16 @@ class Fighter extends Characters {
       protectionAmount
     );
   }
+  /**
+   * Displaying to user hero's special ability's method
+   */
   description() {
     return `${this.name}'s special ability is "Dark Vision" : for ${this.cost} mana, ${this.name}'s defensive move exploits his target open guard to inflicts ${this.specialdmg} damages to his target and ends up in a defensive stands, protecting himself for ${this.protectionAmount} damage for each attacks he recieves until next turn.`;
   }
+  /**
+   * Hero's special ability's method
+   * @param  {object} target : user/computer's target
+   */
   special(target) {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
@@ -60,7 +67,13 @@ class Fighter extends Characters {
       }
     }
   }
-  fighterAI(computer, target) {
+  /**
+   * Computer's thinking's method
+   * @param  {object} computer : computer currently playing
+   * @param  {object} target : computer's target
+   * @return {int} 0 or 1 => 0 for normal attack | 1 for special attack
+   */
+  artificialIntelligence(computer, target) {
     if (computer.hp < 7) {
       return 1;
     } else if (target.hp - computer.specialdmg <= 0) {
