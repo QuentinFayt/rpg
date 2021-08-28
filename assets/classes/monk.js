@@ -1,11 +1,11 @@
 class Monk extends Characters {
   constructor(
     name,
-    hp = 10,
-    dmg = 2,
-    mana = 200,
-    cost = 25,
-    maxhp = 10,
+    hp = 13,
+    dmg = 3,
+    mana = 160,
+    cost = 40,
+    maxhp = 13,
     specialdmg = 0,
     needTarget = false,
     protection = false,
@@ -23,12 +23,13 @@ class Monk extends Characters {
       protection,
       protectionAmount
     );
+    this.healingRecovery = 9;
   }
   /**
    * Displaying to user hero's special ability's method
    */
   description() {
-    return `${this.name}'s special ability is "Heal" : for ${this.cost} mana, ${this.name} attempts to use his ki to heal himself from up to 8 life points.`;
+    return `${this.name}'s special ability is "Heal" : for ${this.cost} mana, ${this.name} attempts to use his ki to heal himself from up to ${this.healingRecovery} life points.`;
   }
   /**
    * Hero's special ability's method
@@ -39,7 +40,7 @@ class Monk extends Characters {
       this.actualMana = this.actualMana - this.cost;
       if (this.hp === this.maxhp) {
         console.log(`You tried to heal yourself...But fail!`);
-      } else if (this.hp + 8 > this.maxhp) {
+      } else if (this.hp + this.healingRecovery > this.maxhp) {
         if (this.user) {
           console.log(
             `You use Heal and restore %c${
@@ -59,11 +60,11 @@ class Monk extends Characters {
             } %cof his life points! %c${this.name} %cgoes back up to %c${
               this.maxhp
             } %clife!`,
-            `color:#e97451; font-style: italic`,
+            `color:#e9this.healingRecovery451; font-style: italic`,
             `clear`,
             `color:#32cd32`,
             `clear`,
-            `color:#e97451; font-style: italic`,
+            `color:#e9this.healingRecovery451; font-style: italic`,
             `clear`,
             `color:#32cd32`,
             `clear`
@@ -71,10 +72,10 @@ class Monk extends Characters {
         }
         this.hp = this.maxhp;
       } else {
-        this.hp = this.hp + 8;
+        this.hp = this.hp + this.healingRecovery;
         if (this.user) {
           console.log(
-            `You use Heal and restore %c8%c of your life points! You go back up to %c${this.hp} %clife!`,
+            `You use Heal and restore %c${this.healingRecovery}%c of your life points! You go back up to %c${this.hp} %clife!`,
             `color:#32cd32`,
             `clear`,
             `color:#32cd32`,
@@ -82,12 +83,12 @@ class Monk extends Characters {
           );
         } else {
           console.log(
-            `%c${this.name} %cuses Heal and restores %c8%c of his life points! %c${this.name} %cgoes back up to %c${this.hp} %clife!`,
-            `color:#e97451; font-style: italic`,
+            `%c${this.name} %cuses Heal and restores %c${this.healingRecovery}%c of his life points! %c${this.name} %cgoes back up to %c${this.hp} %clife!`,
+            `color:#e9this.healingRecovery451; font-style: italic`,
             `clear`,
             `color:#32cd32`,
             `clear`,
-            `color:#e97451; font-style: italic`,
+            `color:#e9this.healingRecovery451; font-style: italic`,
             `clear`,
             `color:#32cd32`,
             `clear`
@@ -103,7 +104,7 @@ class Monk extends Characters {
       } else {
         console.log(
           `%c${this.name} %cnow has %c${this.actualMana} mana %cleft.`,
-          `color:#e97451; font-style: italic`,
+          `color:#e9this.healingRecovery451; font-style: italic`,
           `clear`,
           `color:#1e90ff`,
           `clear`

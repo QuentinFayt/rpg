@@ -1,11 +1,11 @@
 class Fighter extends Characters {
   constructor(
     name,
-    hp = 12,
-    dmg = 4,
-    mana = 40,
+    hp = 20,
+    dmg = 3,
+    mana = 80,
     cost = 20,
-    maxhp = 12,
+    maxhp = 20,
     specialdmg = 5,
     needTarget = true,
     protection = false,
@@ -74,7 +74,7 @@ class Fighter extends Characters {
    * @return {int} 0 or 1 => 0 for normal attack | 1 for special attack
    */
   artificialIntelligence(computer, target) {
-    if (computer.hp < 7) {
+    if (computer.hp < 9) {
       return 1;
     } else if (target.hp - computer.specialdmg <= 0) {
       if (target.hp - computer.dmg <= 0) {

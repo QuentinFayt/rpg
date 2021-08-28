@@ -126,9 +126,10 @@ class Turn {
     }
   }
   /**
-   * Loading
-   * @param  {} computer
-   * @param  {} target
+   * Loading instanced class's method
+   * @param  {object} computer : current computer playing
+   * @param  {object} target : current computer's target
+   * @return {int} either 1 or 0 depending on what the computer want to do
    */
   computerAI(computer, target) {
     if (computer.actualMana - computer.cost >= 0) {
@@ -137,7 +138,11 @@ class Turn {
       return 0;
     }
   }
-
+  /**
+   * Player's target selecting's method
+   * @param  {object} user : current selected user's hero class
+   * @return {string} will always be a existing name from current fighter's list
+   */
   userTarget(user) {
     let userInput;
     console.log("Who do you want to attack?");
@@ -156,7 +161,10 @@ class Turn {
     );
     return userInput;
   }
-
+  /**
+   * Every step of a player's turn method
+   * @param  {object} player : current selected user's hero class
+   */
   userTurn(player) {
     let userInput;
     let target = [];
@@ -218,7 +226,12 @@ class Turn {
       }
     }
   }
-
+  /**
+   * Displaying every action to user, depending on the input method
+   * @param  {object} player : user/computer selected class
+   * @param  {object} target : user/computer's target
+   * @param  {int} input : user/computer's choice, either undefined, 1 , 2 or 3
+   */
   talkToUser(player, target, input) {
     if (input === undefined) {
       if (player instanceof Rogue && player.wasUsed === true) {

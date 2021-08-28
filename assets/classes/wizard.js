@@ -1,11 +1,11 @@
 class Wizard extends Characters {
   constructor(
     name,
-    hp = 9,
+    hp = 12,
     dmg = 2,
-    mana = 200,
+    mana = 100,
     cost = 25,
-    maxhp = 10,
+    maxhp = 12,
     specialdmg = 7,
     needTarget = true,
     protection = false,
