@@ -1,11 +1,11 @@
 class Rogue extends Characters {
   constructor(
     name,
-    hp = 10,
-    dmg = 6,
-    mana = 80,
+    hp = 15,
+    dmg = 5,
+    mana = 60,
     cost = 20,
-    maxhp = 10,
+    maxhp = 15,
     specialdmg = 3,
     needTarget = true,
     protection = false,

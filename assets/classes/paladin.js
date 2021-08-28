@@ -1,11 +1,11 @@
 class Paladin extends Characters {
   constructor(
     name,
-    hp = 16,
+    hp = 18,
     dmg = 3,
-    mana = 160,
+    mana = 120,
     cost = 40,
-    maxhp = 16,
+    maxhp = 18,
     specialdmg = 4,
     needTarget = true,
     protection = false,
@@ -23,12 +23,13 @@ class Paladin extends Characters {
       protection,
       protectionAmount
     );
+    this.healingRecovery = 3;
   }
   /**
    * Displaying to user hero's special ability's method
    */
   description() {
-    return `${this.name}'s special ability is "Healing Lighting" : for ${this.cost} mana, ${this.name} uses holy light to inflicts ${this.specialdmg} damages to his target and healing himself for 5 life points in the process.`;
+    return `${this.name}'s special ability is "Healing Lighting" : for ${this.cost} mana, ${this.name} uses holy light to inflicts ${this.specialdmg} damages to his target and healing himself for ${this.healingRecovery} life points in the process.`;
   }
   /**
    * Hero's special ability's method
@@ -45,7 +46,7 @@ class Paladin extends Characters {
         } else {
           target.hp = target.hp - this.specialdmg;
         }
-        if (this.hp + 5 > this.maxhp) {
+        if (this.hp + 3 > this.maxhp) {
           if (this.hp !== this.maxhp) {
             if (this.user) {
               console.log(
@@ -77,10 +78,10 @@ class Paladin extends Characters {
             this.hp = this.maxhp;
           }
         } else {
-          this.hp = this.hp + 5;
+          this.hp = this.hp + this.healingRecovery;
           if (this.user) {
             console.log(
-              `You restore %c5%c of your life! You get back up to %c${this.hp} %clife!`,
+              `You restore %c${this.healingRecovery}%c of your life! You get back up to %c${this.hp} %clife!`,
               `color:#32cd32`,
               `clear`,
               `color:#32cd32`,
@@ -88,7 +89,7 @@ class Paladin extends Characters {
             );
           } else {
             console.log(
-              `%c${this.name} %crestores %c5%c of his life! %c${this.name} %cgets back up to %c${this.hp} %clife!`,
+              `%c${this.name} %crestores %c${this.healingRecovery}%c of his life! %c${this.name} %cgets back up to %c${this.hp} %clife!`,
               `color:#e97451; font-style: italic`,
               `clear`,
               `color:#32cd32`,

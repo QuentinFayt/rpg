@@ -1,11 +1,11 @@
 class Berserker extends Characters {
   constructor(
     name,
-    hp = 9,
+    hp = 15,
     dmg = 4,
     mana = 0,
     cost = 0,
-    maxhp = 9,
+    maxhp = 15,
     specialdmg = 0,
     needTarget = false,
     protection = false,
