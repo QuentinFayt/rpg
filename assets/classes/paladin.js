@@ -1,28 +1,15 @@
 class Paladin extends Characters {
-  constructor(
-    name,
-    hp = 18,
-    dmg = 3,
-    mana = 120,
-    cost = 40,
-    maxhp = 18,
-    specialdmg = 4,
-    needTarget = true,
-    protection = false,
-    protectionAmount = 0
-  ) {
-    super(
-      name,
-      hp,
-      dmg,
-      mana,
-      cost,
-      maxhp,
-      specialdmg,
-      needTarget,
-      protection,
-      protectionAmount
-    );
+  constructor(name) {
+    super();
+    this.name = name;
+    this.hp = 18;
+    this.maxhp = this.hp;
+    this.dmg = 3;
+    this.mana = 120;
+    this.actualMana = this.mana;
+    this.cost = 40;
+    this.specialdmg = 4;
+    this.needTarget = true;
     this.healingRecovery = 3;
   }
   /**

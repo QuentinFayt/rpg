@@ -1,28 +1,15 @@
 class Berserker extends Characters {
-  constructor(
-    name,
-    hp = 15,
-    dmg = 4,
-    mana = 0,
-    cost = 0,
-    maxhp = 15,
-    specialdmg = 0,
-    needTarget = false,
-    protection = false,
-    protectionAmount = 0
-  ) {
-    super(
-      name,
-      hp,
-      dmg,
-      mana,
-      cost,
-      maxhp,
-      specialdmg,
-      needTarget,
-      protection,
-      protectionAmount
-    );
+  constructor(name) {
+    super();
+    this.name = name;
+    this.hp = 15;
+    this.maxhp = this.hp;
+    this.dmg = 4;
+    this.mana = 0;
+    this.actualMana = this.mana;
+    this.cost = 0;
+    this.specialdmg = 0;
+    this.needTarget = false;
     this.rage = false;
   }
   /**

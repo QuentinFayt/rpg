@@ -1,29 +1,7 @@
 //Joueur//
 class Characters {
-  constructor(
-    name,
-    hp,
-    dmg,
-    mana,
-    cost,
-    maxhp,
-    specialdmg,
-    needTarget,
-    protection,
-    protectionAmount
-  ) {
-    this.name = name;
-    this.hp = hp;
-    this.dmg = dmg;
-    this.mana = mana;
-    this.cost = cost;
-    this.maxhp = maxhp;
+  constructor() {
     this.state = "alive";
-    this.specialdmg = specialdmg;
-    this.needTarget = needTarget;
-    this.protection = protection;
-    this.protectionAmount = protectionAmount;
-    this.actualMana = this.mana;
     this.user = false;
     this.selected = false;
   }

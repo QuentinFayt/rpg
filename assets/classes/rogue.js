@@ -1,28 +1,15 @@
 class Rogue extends Characters {
-  constructor(
-    name,
-    hp = 15,
-    dmg = 5,
-    mana = 60,
-    cost = 20,
-    maxhp = 15,
-    specialdmg = 3,
-    needTarget = true,
-    protection = false,
-    protectionAmount = 0
-  ) {
-    super(
-      name,
-      hp,
-      dmg,
-      mana,
-      cost,
-      maxhp,
-      specialdmg,
-      needTarget,
-      protection,
-      protectionAmount
-    );
+  constructor(name) {
+    super();
+    this.name = name;
+    this.hp = 15;
+    this.maxhp = this.hp;
+    this.dmg = 5;
+    this.mana = 60;
+    this.actualMana = this.mana;
+    this.cost = 20;
+    this.specialdmg = 3;
+    this.needTarget = true;
     this.wasUsed = false;
   }
   /**

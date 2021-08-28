@@ -1,28 +1,15 @@
 class Monk extends Characters {
-  constructor(
-    name,
-    hp = 13,
-    dmg = 3,
-    mana = 160,
-    cost = 40,
-    maxhp = 13,
-    specialdmg = 0,
-    needTarget = false,
-    protection = false,
-    protectionAmount = 0
-  ) {
-    super(
-      name,
-      hp,
-      dmg,
-      mana,
-      cost,
-      maxhp,
-      specialdmg,
-      needTarget,
-      protection,
-      protectionAmount
-    );
+  constructor(name) {
+    super();
+    this.name = name;
+    this.hp = 13;
+    this.maxhp = this.hp;
+    this.dmg = 3;
+    this.mana = 160;
+    this.actualMana = this.mana;
+    this.cost = 40;
+    this.specialdmg = 0;
+    this.needTarget = false;
     this.healingRecovery = 9;
   }
   /**
