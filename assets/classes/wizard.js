@@ -1,28 +1,15 @@
 class Wizard extends Characters {
-  constructor(
-    name,
-    hp = 12,
-    dmg = 2,
-    mana = 100,
-    cost = 25,
-    maxhp = 12,
-    specialdmg = 7,
-    needTarget = true,
-    protection = false,
-    protectionAmount = 0
-  ) {
-    super(
-      name,
-      hp,
-      dmg,
-      mana,
-      cost,
-      maxhp,
-      specialdmg,
-      needTarget,
-      protection,
-      protectionAmount
-    );
+  constructor(name) {
+    super();
+    this.name = name;
+    this.hp = 12;
+    this.maxhp = this.hp;
+    this.dmg = 2;
+    this.mana = 100;
+    this.actualMana = this.mana;
+    this.cost = 25;
+    this.specialdmg = 7;
+    this.needTarget = true;
   }
   /**
    * Displaying to user hero's special ability's method

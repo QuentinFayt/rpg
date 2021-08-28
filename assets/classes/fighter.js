@@ -1,28 +1,17 @@
 class Fighter extends Characters {
-  constructor(
-    name,
-    hp = 20,
-    dmg = 3,
-    mana = 80,
-    cost = 20,
-    maxhp = 20,
-    specialdmg = 5,
-    needTarget = true,
-    protection = false,
-    protectionAmount = 2
-  ) {
-    super(
-      name,
-      hp,
-      dmg,
-      mana,
-      cost,
-      maxhp,
-      specialdmg,
-      needTarget,
-      protection,
-      protectionAmount
-    );
+  constructor(name) {
+    super();
+    this.name = name;
+    this.hp = 20;
+    this.maxhp = this.hp;
+    this.dmg = 3;
+    this.mana = 80;
+    this.actualMana = this.mana;
+    this.cost = 20;
+    this.specialdmg = 5;
+    this.needTarget = true;
+    this.protection = false;
+    this.protectionAmount = 2;
   }
   /**
    * Displaying to user hero's special ability's method
