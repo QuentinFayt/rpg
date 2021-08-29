@@ -4,21 +4,19 @@ class Game {
     this.turnleft = 10;
     this.numberOfFighters = 5;
     this.state = "ongoing";
-    this.characters = this.createChar();
-    this.listOfFighters = this.randomizePullOfCharacters();
-    this.displayListOfFighters(this.listOfFighters);
     this.newTurn();
-    this.whoWon();
   }
   /**
    * Game loading method
    */
   newTurn() {
+    this.characters = this.createChar();
+    const listOfFighters = this.randomizePullOfCharacters(this.characters);
+    this.displayListOfFighters(listOfFighters);
     let countTurn = 1;
     do {
       if (
-        this.listOfFighters.filter((alive) => alive.state !== "dead").length ===
-          1 ||
+        listOfFighters.filter((alive) => alive.state !== "dead").length === 1 ||
         this.turnleft === 0
       ) {
         this.state = "over";
@@ -29,11 +27,12 @@ class Game {
           `font-size:20px ; font-style:bold ; text-decoration:underline ; color:#77f0ff`
         );
         this.turnleft--;
-        new Turn(this.listOfFighters);
-        this.resetProtectiveState(this.listOfFighters);
+        new Turn(listOfFighters);
+        this.resetProtectiveState(listOfFighters);
         countTurn++;
       }
     } while (this.state === "ongoing");
+    this.whoWon(listOfFighters);
   }
   /**
    * Hero class loading method
@@ -52,14 +51,15 @@ class Game {
   }
   /**
    * User's character selection method
+   * @param {array} charactersList : list of all playable characters
    * @return {object} user's selection
    */
-  selectYourChampion() {
+  selectYourChampion(charactersList) {
     console.log(
       `%cWhat do you wanna play?`,
       `font-size:15px ; font-style:bold ; color:#77f0ff`
     );
-    this.characters.forEach((character, index) =>
+    charactersList.forEach((character, index) =>
       console.log(
         `${index + 1}) %c${character.name} %cthe %c${
           character.constructor.name
@@ -81,7 +81,7 @@ class Game {
       )
     );
     let userInput;
-    let numberOfCharacters = this.characters.length;
+    let numberOfCharacters = charactersList.length;
     do {
       userInput = Math.trunc(Number(prompt("Choose a number")));
     } while (
@@ -90,17 +90,17 @@ class Game {
       userInput > numberOfCharacters
     );
     userInput = userInput - 1;
-    this.characters[userInput].user = true;
-    this.characters[userInput].selected = true;
+    charactersList[userInput].user = true;
+    charactersList[userInput].selected = true;
     console.clear();
 
     console.log(
-      `You chose %c${this.characters[userInput].name}%c!
+      `You chose %c${charactersList[userInput].name}%c!
 You have:
--%c${this.characters[userInput].hp} %clife points
--%c${this.characters[userInput].mana} %cmana
--You can deal %c${this.characters[userInput].dmg} %cdamage per turn
--${this.characters[userInput].description()}`,
+-%c${charactersList[userInput].hp} %clife points
+-%c${charactersList[userInput].mana} %cmana
+-You can deal %c${charactersList[userInput].dmg} %cdamage per turn
+-${charactersList[userInput].description()}`,
       `color:#e97451; font-style: italic`,
       `clear`,
       `color:#32cd32`,
@@ -110,7 +110,7 @@ You have:
       `color:#ef1523`,
       `clear`
     );
-    return this.characters[userInput];
+    return charactersList[userInput];
   }
   /**
    * Resetting all temporary protective state before next turn method
@@ -129,26 +129,19 @@ You have:
     }
   }
   /**
-   * Randomize array method
-   * @param  {array} array : array to shuffle
-   * @return {array} array randomized
-   */
-  shuffle(array) {
-    return array.sort((a, b) => 0.5 - Math.random());
-  }
-  /**
    * randomization of heroes list w/o user selection method
+   * @param {array} charactersList : list of all playable characterss
    * @return {array} list of heroes for the game with user at 0 index
    */
-  randomizePullOfCharacters() {
-    let user = this.selectYourChampion();
+  randomizePullOfCharacters(charactersList) {
+    let user = this.selectYourChampion(charactersList);
     let listOfFighters = [];
 
     for (let i = 0; i < this.numberOfFighters - 1; i++) {
-      let notSelected = this.characters.filter(
+      let notSelected = charactersList.filter(
         (character) => character.selected !== true
       );
-      listOfFighters[i] = this.shuffle(notSelected)[0];
+      listOfFighters[i] = shuffle(notSelected)[0];
       notSelected[0].selected = true;
     }
     listOfFighters.push(user);
@@ -156,7 +149,7 @@ You have:
   }
   /**
    * displaying list of playable character for user selection method
-   * @param  {array} listofChar : list of all playable character
+   * @param  {array} listofChar : list of all playable characters
    */
   displayListOfFighters(listofChar) {
     console.log(
@@ -173,11 +166,10 @@ You have:
   }
   /**
    * checking and displaying who won method
+   * @param {array} listOfFighters : list of all current game characters
    */
-  whoWon() {
-    let competitors = this.listOfFighters.filter(
-      (alive) => alive.state === "alive"
-    );
+  whoWon(listOfFighters) {
+    let competitors = listOfFighters.filter((alive) => alive.state === "alive");
     let winner = competitors[0];
 
     for (let i = 1; i < competitors.length; i++) {

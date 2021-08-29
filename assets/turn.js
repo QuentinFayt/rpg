@@ -7,7 +7,7 @@ class Turn {
    * all of one turn actions loading method
    */
   whoseTurn() {
-    let characterTurn = this.shuffle(
+    let characterTurn = shuffle(
       this.characters.filter((alive) => alive.state === "alive")
     );
 
@@ -48,14 +48,6 @@ class Turn {
         characterTurn = characterTurn.slice(1, characterTurn.length);
       }
     }
-  }
-  /**
-   * Randomize array method
-   * @param  {array} array : array to shuffle
-   * @return {array} array randomized
-   */
-  shuffle(array) {
-    return array.sort((a, b) => 0.5 - Math.random());
   }
   /**
    * Display all still alived characters method
@@ -118,11 +110,11 @@ class Turn {
       isItKillableWithSpecial.length > 0 &&
       computer.actualMana - computer.cost >= 0
     ) {
-      return (target = this.shuffle(isItKillableWithSpecial));
+      return (target = shuffle(isItKillableWithSpecial));
     } else if (isItKillable.length > 0) {
-      return (target = this.shuffle(isItKillable));
+      return (target = shuffle(isItKillable));
     } else {
-      return (target = this.shuffle(target));
+      return (target = shuffle(target));
     }
   }
   /**
