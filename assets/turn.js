@@ -40,7 +40,8 @@ class Turn {
       if (
         characterTurn[0] instanceof Rogue &&
         characterTurn[0].wasUsed === true &&
-        testForRogue > 1
+        testForRogue > 1 &&
+        characterTurn[0].state !== "dead"
       ) {
         characterTurn.push(characterTurn[0]);
         characterTurn = characterTurn.slice(1, characterTurn.length);
