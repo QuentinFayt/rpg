@@ -16,7 +16,7 @@ class Rogue extends Characters {
    * Displaying to user hero's special ability's method
    */
   description() {
-    return `${this.name}'s special ability is "Double Hit" : for ${this.cost} mana, ${this.name} strikes her enemy for half her damages, but places herself in a better position, making her able to hit someone again in the same turn for the rest of the damages.`;
+    return `${this.name}'s special ability is "Double Hit" : for ${this.cost} mana, ${this.name} strikes her enemy for ${this.specialdmg} damages, but places herself in a better position, making her able to hit someone again in the same turn for ${this.specialdmg} damages.`;
   }
   /**
    * Hero's special ability's method

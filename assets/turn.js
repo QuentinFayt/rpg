@@ -34,20 +34,10 @@ class Turn {
           this.computerAction(characterTurn[0], target[0]);
         }
       }
-      let testForRogue = this.characters.filter(
-        (alive) => alive.state === "alive"
-      ).length;
-      if (
-        characterTurn[0] instanceof Rogue &&
-        characterTurn[0].wasUsed === true &&
-        testForRogue > 1 &&
-        characterTurn[0].state !== "dead"
-      ) {
-        characterTurn.push(characterTurn[0]);
-        characterTurn = characterTurn.slice(1, characterTurn.length);
-      } else {
-        characterTurn = characterTurn.slice(1, characterTurn.length);
-      }
+      characterTurn = this.slicingPreviousCharacterOut(
+        characterTurn[0],
+        characterTurn
+      );
     }
   }
   /**
@@ -436,6 +426,28 @@ It's still your turn! You currently have %c${player.hp} life points %cand %c${pl
           "You tried to use your special ability... But you lack of mana!"
         );
       }
+    }
+  }
+  /**
+   * Slicing current player out of array to make the next player able to play
+   * @param  {object} currentPlayer : current player to slice out
+   * @param  {array} alivedCharacters :  list of next players that still have to play this turn
+   * @return {array} list of next players that still have to play this turn without current player
+   */
+  slicingPreviousCharacterOut(currentPlayer, alivedCharacters) {
+    let testForRogue = this.characters.filter(
+      (alive) => alive.state === "alive"
+    ).length;
+    if (
+      currentPlayer instanceof Rogue &&
+      currentPlayer.wasUsed === true &&
+      testForRogue > 1 &&
+      currentPlayer.state !== "dead"
+    ) {
+      alivedCharacters.push(currentPlayer);
+      return alivedCharacters.slice(1, alivedCharacters.length);
+    } else {
+      return alivedCharacters.slice(1, alivedCharacters.length);
     }
   }
 }

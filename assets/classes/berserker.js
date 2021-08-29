@@ -75,6 +75,11 @@ You get enraged! Your damages increase for %c1%c!`,
       return 0;
     }
   }
+
+  /**
+   * Leeching killed Target's life method
+   * @param  {int} lifeleeched : target's life before the kill
+   */
   rageleech(lifeleeched) {
     if (this.rage === true) {
       if (this.hp !== this.maxhp) {
