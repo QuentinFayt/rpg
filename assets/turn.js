@@ -10,7 +10,6 @@ class Turn {
     let characterTurn = shuffle(
       this.characters.filter((alive) => alive.state === "alive")
     );
-
     while (characterTurn.length > 0) {
       if (characterTurn[0].state !== "dead") {
         if (characterTurn[0].user === true) {
