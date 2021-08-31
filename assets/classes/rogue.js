@@ -1,3 +1,4 @@
+"use strict";
 class Rogue extends Characters {
   constructor(name) {
     super();

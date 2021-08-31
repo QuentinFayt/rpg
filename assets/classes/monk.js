@@ -1,3 +1,4 @@
+"use strict";
 class Monk extends Characters {
   constructor(name) {
     super();

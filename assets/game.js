@@ -1,3 +1,4 @@
+"use strict";
 class Game {
   constructor() {
     console.clear();
@@ -134,18 +135,16 @@ You have:
    * @return {array} list of heroes for the game with user at 0 index
    */
   randomizePullOfCharacters(charactersList) {
-    let user = this.selectYourChampion(charactersList);
     let listOfFighters = [];
-
+    listOfFighters.push(this.selectYourChampion(charactersList));
     for (let i = 0; i < this.numberOfFighters - 1; i++) {
       let notSelected = charactersList.filter(
         (character) => character.selected !== true
       );
-      listOfFighters[i] = shuffle(notSelected)[0];
+      listOfFighters.push(shuffle(notSelected)[0]);
       notSelected[0].selected = true;
     }
-    listOfFighters.push(user);
-    return listOfFighters.reverse();
+    return listOfFighters;
   }
   /**
    * displaying list of playable character for user selection method

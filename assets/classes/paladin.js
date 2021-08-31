@@ -1,3 +1,4 @@
+"use strict";
 class Paladin extends Characters {
   constructor(name) {
     super();

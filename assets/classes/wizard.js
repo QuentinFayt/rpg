@@ -1,3 +1,4 @@
+"use strict";
 class Wizard extends Characters {
   constructor(name) {
     super();

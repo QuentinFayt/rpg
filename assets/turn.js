@@ -1,3 +1,5 @@
+"use strict";
+
 class Turn {
   constructor(characters) {
     this.characters = characters;
@@ -285,44 +287,40 @@ It's still your turn! You currently have %c${player.hp} life points %cand %c${pl
       } else {
         actualhp -= player.dmg;
       }
-      if (target.protection && !(target instanceof Assassin)) {
-        actualhp = actualhp + target.protectionAmount;
-      }
-      if (actualhp < 0) {
-        actualhp = 0;
-      }
-      if (target.protection && target instanceof Assassin) {
-        if (player.user) {
-          console.log(
-            `You tried to attack %c${target.name}%c, but she wasn't there!`,
-            `color:#e97451; font-style: italic`,
-            `clear`
-          );
+      if (target.protection) {
+        if (!(target instanceof Assassin)) {
+          actualhp = actualhp + target.protectionAmount;
         } else {
-          console.log(
-            `%c${player.name} %ctried to attack %c${target.name}%c, but she wasn't there!`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#e97451; font-style: italic`,
-            `clear`
-          );
+          if (actualhp < 0) {
+            actualhp = 0;
+          }
+          if (player.user) {
+            console.log(
+              `You tried to attack %c${target.name}%c, but she wasn't there!`,
+              `color:#e97451; font-style: italic`,
+              `clear`
+            );
+          } else {
+            console.log(
+              `%c${player.name} %ctried to attack %c${target.name}%c, but she wasn't there!`,
+              `color:#e97451; font-style: italic`,
+              `clear`,
+              `color:#e97451; font-style: italic`,
+              `clear`
+            );
+          }
         }
       } else if (player.user) {
+        let actualdmg = player.dmg;
         if (player instanceof Rogue && player.wasUsed === true) {
-          console.log(
-            `You attacked %c${target.name} %cand inflict %c${player.specialdmg} damages!`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#ef1523`
-          );
-        } else {
-          console.log(
-            `You attacked %c${target.name} %cand inflict %c${player.dmg} damages!`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#ef1523`
-          );
+          actualdmg = player.specialdmg;
         }
+        console.log(
+          `You attacked %c${target.name} %cand inflict %c${actualdmg} damages!`,
+          `color:#e97451; font-style: italic`,
+          `clear`,
+          `color:#ef1523`
+        );
       } else {
         if (player instanceof Rogue && player.wasUsed === true) {
           console.log(
@@ -355,7 +353,7 @@ It's still your turn! You currently have %c${player.hp} life points %cand %c${pl
         console.log(
           `%c${target.name} %chas %c${actualhp} %clife point left!`,
           `color:#e97451; font-style: italic`,
-          `color:wite`,
+          `clear`,
           `color:#32cd32`,
           `clear`
         );
@@ -414,7 +412,7 @@ It's still your turn! You currently have %c${player.hp} life points %cand %c${pl
             console.log(
               `%c${target.name} %chas %c${actualhp} %clife point left!`,
               `color:#e97451; font-style: italic`,
-              `color:wite`,
+              `clear`,
               `color:#32cd32`,
               `clear`
             );

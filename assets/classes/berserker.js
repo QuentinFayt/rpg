@@ -1,3 +1,4 @@
+"use strict";
 class Berserker extends Characters {
   constructor(name) {
     super();

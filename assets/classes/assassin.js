@@ -1,3 +1,4 @@
+"use strict";
 class Assassin extends Characters {
   constructor(name) {
     super();
@@ -10,7 +11,6 @@ class Assassin extends Characters {
     this.cost = 20;
     this.specialdmg = 7;
     this.needTarget = true;
-    this.protection = false;
     this.wasUsed = false;
   }
   /**
