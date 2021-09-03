@@ -49,24 +49,19 @@ class Characters {
           console.log(
             `You recover %c${
               this.mana - this.actualMana
-            } mana%c! You now have %c${this.mana} mana %cleft!`,
-            `color:#1e90ff`,
-            `clear`,
-            `color:#1e90ff`,
-            `clear`
+            }%c mana! You now have %c${this.mana}%c mana left!`,
+            ...MANA_COLOR,
+            ...MANA_COLOR
           );
         } else {
           console.log(
-            `%c${this.name} %crecovers %c${
+            `%c${this.name}%c recovers %c${
               this.mana - this.actualMana
-            } mana! %c${this.name} %cnow has %c${this.mana} mana %cleft!`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#1e90ff`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#1e90ff`,
-            `clear`
+            }%c mana! %c${this.name}%c now has %c${this.mana}%c mana left!`,
+            ...HERO_COLOR,
+            ...MANA_COLOR,
+            ...HERO_COLOR,
+            ...MANA_COLOR
           );
         }
         this.actualMana = this.mana;
@@ -74,22 +69,17 @@ class Characters {
         this.actualMana = this.actualMana + 20;
         if (this.player) {
           console.log(
-            `You recover %c20 mana %c! You now have %c${this.actualMana} mana %cleft!`,
-            `color:#1e90ff`,
-            `clear`,
-            `color:#1e90ff`,
-            `clear`
+            `You recover %c20%c mana! You now have %c${this.actualMana}%c mana left!`,
+            ...MANA_COLOR,
+            ...MANA_COLOR
           );
         } else {
           console.log(
-            `%c${this.name} %crecovers %c20 mana! %c${this.name} %cnow has %c${this.actualMana} mana %cleft!`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#1e90ff`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#1e90ff`,
-            `clear`
+            `%c${this.name}%c recovers %c20%c mana! %c${this.name}%c now has %c${this.actualMana}%c mana left!`,
+            ...HERO_COLOR,
+            ...MANA_COLOR,
+            ...HERO_COLOR,
+            ...MANA_COLOR
           );
         }
       }

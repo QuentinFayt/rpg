@@ -62,23 +62,16 @@ class Game {
     );
     charactersList.forEach((character, index) =>
       console.log(
-        `${index + 1}) %c${character.name} %cthe %c${
+        `${index + 1}) %c${character.name}%c the %c${
           character.constructor.name
-        } 
-%chp: %c${character.hp} 
-%cdmg per turn: %c${character.dmg}
-%cmax mana: %c${character.mana}
-%c${character.description()}`,
-        `color:#e97451; font-style: italic`,
-        `clear`,
-        `color:#00b654`,
-        `clear`,
-        `color:#32cd32`,
-        `clear`,
-        `color:#ef1523`,
-        `clear`,
-        `color:#1e90ff`,
-        `clear`
+        }%c\nhp: %c${character.hp}%c\ndmg per turn: %c${
+          character.dmg
+        }%c\nmax mana: %c${character.mana}%c\n${character.description()}`,
+        ...HERO_COLOR,
+        ...CLASS_COLOR,
+        ...HP_COLOR,
+        ...DMG_COLOR,
+        ...MANA_COLOR
       )
     );
     let userInput;
@@ -96,20 +89,17 @@ class Game {
     console.clear();
 
     console.log(
-      `You chose %c${charactersList[userInput].name}%c!
-You have:
--%c${charactersList[userInput].hp} %clife points
--%c${charactersList[userInput].mana} %cmana
--You can deal %c${charactersList[userInput].dmg} %cdamage per turn
--${charactersList[userInput].description()}`,
-      `color:#e97451; font-style: italic`,
-      `clear`,
-      `color:#32cd32`,
-      `clear`,
-      `color:#1e90ff`,
-      `clear`,
-      `color:#ef1523`,
-      `clear`
+      `You chose %c${charactersList[userInput].name}%c!\nYou have:\n-%c${
+        charactersList[userInput].hp
+      }%c life points\n-You can deal %c${
+        charactersList[userInput].dmg
+      }%c damage per turn\n-%c${
+        charactersList[userInput].mana
+      }%c mana\n-${charactersList[userInput].description()}`,
+      HERO_COLOR,
+      HP_COLOR,
+      DMG_COLOR,
+      MANA_COLOR
     );
     return charactersList[userInput];
   }
@@ -151,16 +141,9 @@ You have:
    * @param  {array} listofChar : list of all playable characters
    */
   displayListOfFighters(listofChar) {
-    console.log(
-      `%cThe fighters stepped in the arena!!!`,
-      `font-size:20px ; font-style:bold ; color:#77f0ff`
-    );
+    console.log(`%cThe fighters stepped in the arena!!!`, ENTERING);
     listofChar.forEach((character) =>
-      console.log(
-        `%c${character.name} %centers the arena!`,
-        `color:#e97451; font-style: italic`,
-        `clear`
-      )
+      console.log(`%c${character.name}%c enters the arena!`, HERO_COLOR)
     );
   }
   /**
@@ -177,12 +160,9 @@ You have:
       }
     }
     if (winner.user === true) {
-      console.log(
-        `%cCongratulation, you won!`,
-        `font-size:15px ; font-style:bold`
-      );
+      console.log(`%cCongratulation, you won!`, END_OF_FIGHT_COLOR);
     } else {
-      console.log(`%c${winner.name} won!`, `font-size:15px ; font-style:bold`);
+      console.log(`%c${winner.name} won!`, END_OF_FIGHT_COLOR);
     }
   }
 }

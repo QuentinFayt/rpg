@@ -35,17 +35,14 @@ class Assassin extends Characters {
         this.wasUsed = true;
         if (this.user) {
           console.log(
-            `You now have %c${this.actualMana} %cmana left.`,
-            `color:#1e90ff`,
-            `clear`
+            `You now have %c${this.actualMana}%c mana left.`,
+            MANA_COLOR
           );
         } else {
           console.log(
-            `%c${this.name} %cnow has %c${this.actualMana} %cmana left.`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#1e90ff`,
-            `clear`
+            `%c${this.name}%c now has %c${this.actualMana}%c mana left.`,
+            HERO_COLOR,
+            MANA_COLOR
           );
         }
       }

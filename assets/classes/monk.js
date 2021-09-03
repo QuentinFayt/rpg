@@ -33,29 +33,21 @@ class Monk extends Characters {
           console.log(
             `You use Heal and restore %c${
               this.maxhp - this.hp
-            } %cof your life points! You go back up to %c${
-              this.maxhp
-            }  %clife!`,
-            `color:#32cd32`,
-            `clear`,
-            `color:#32cd32`,
-            `clear`
+            }%c of your life points! You go back up to %c${this.maxhp}%c life!`,
+            ...HP_COLOR,
+            ...HP_COLOR
           );
         } else {
           console.log(
-            `%c${this.name} %cuses Heal and restores %c${
+            `%c${this.name}%c uses Heal and restores %c${
               this.maxhp - this.hp
-            } %cof his life points! %c${this.name} %cgoes back up to %c${
+            }%c of his life points! %c${this.name}%c goes back up to %c${
               this.maxhp
-            } %clife!`,
-            `color:#e9this.healingRecovery451; font-style: italic`,
-            `clear`,
-            `color:#32cd32`,
-            `clear`,
-            `color:#e9this.healingRecovery451; font-style: italic`,
-            `clear`,
-            `color:#32cd32`,
-            `clear`
+            }%c life!`,
+            ...HERO_COLOR,
+            ...HP_COLOR,
+            ...HERO_COLOR,
+            ...HP_COLOR
           );
         }
         this.hp = this.maxhp;
@@ -63,39 +55,30 @@ class Monk extends Characters {
         this.hp = this.hp + this.healingRecovery;
         if (this.user) {
           console.log(
-            `You use Heal and restore %c${this.healingRecovery}%c of your life points! You go back up to %c${this.hp} %clife!`,
-            `color:#32cd32`,
-            `clear`,
-            `color:#32cd32`,
-            `clear`
+            `You use Heal and restore %c${this.healingRecovery}%c of your life points! You go back up to %c${this.hp}%c life!`,
+            ...HP_COLOR,
+            ...HP_COLOR
           );
         } else {
           console.log(
-            `%c${this.name} %cuses Heal and restores %c${this.healingRecovery}%c of his life points! %c${this.name} %cgoes back up to %c${this.hp} %clife!`,
-            `color:#e9this.healingRecovery451; font-style: italic`,
-            `clear`,
-            `color:#32cd32`,
-            `clear`,
-            `color:#e9this.healingRecovery451; font-style: italic`,
-            `clear`,
-            `color:#32cd32`,
-            `clear`
+            `%c${this.name}%c uses Heal and restores %c${this.healingRecovery}%c of his life points! %c${this.name}%c goes back up to %c${this.hp}%c life!`,
+            ...HERO_COLOR,
+            ...HP_COLOR,
+            ...HERO_COLOR,
+            ...HP_COLOR
           );
         }
       }
       if (this.user) {
         console.log(
-          `You now have %c${this.actualMana} mana %cleft.`,
-          `color:#1e90ff`,
-          `clear`
+          `You now have %c${this.actualMana}%c mana left.`,
+          ...MANA_COLOR
         );
       } else {
         console.log(
-          `%c${this.name} %cnow has %c${this.actualMana} mana %cleft.`,
-          `color:#e9this.healingRecovery451; font-style: italic`,
-          `clear`,
-          `color:#1e90ff`,
-          `clear`
+          `%c${this.name}%c now has %c${this.actualMana}%c mana left.`,
+          ...HERO_COLOR,
+          ...MANA_COLOR
         );
       }
     }
