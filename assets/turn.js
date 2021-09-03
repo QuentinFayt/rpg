@@ -1,3 +1,5 @@
+"use strict";
+
 class Turn {
   constructor(characters) {
     this.characters = characters;
@@ -21,12 +23,12 @@ class Turn {
           ) {
             console.log(
               `%c${player.name}'s special ability grants her another turn!`,
-              `font-size:15px ; font-style:bold ; text-decoration:underline ; color:#e97451`
+              ...TURN_COLOR
             );
           } else {
             console.log(
               `%cIt's ${characterTurn[0].name}'s turn!`,
-              `font-size:15px ; font-style:bold ; text-decoration:underline ; color:#e97451`
+              ...TURN_COLOR
             );
           }
           let target = this.computerTarget(characterTurn[0]);
@@ -47,13 +49,10 @@ class Turn {
 
     survivors.forEach((character) =>
       console.log(
-        `%c${character.name} %cis still alive with %c${character.hp} hp %cand %c${character.actualMana} mana%c!`,
-        `color:#e97451; font-style: italic`,
-        `clear`,
-        `color:#32cd32`,
-        `clear`,
-        `color:#1e90ff`,
-        `clear`
+        `%c${character.name}%c is still alive with %c${character.hp}%c hp and %c${character.actualMana}%c mana!`,
+        ...HERO_COLOR,
+        ...HP_COLOR,
+        ...MANA_COLOR
       )
     );
   }
@@ -216,148 +215,91 @@ class Turn {
    */
   talkToUser(player, target, input) {
     if (input === undefined) {
+      let actualdmg = player.dmg;
+      let choice = `What do you want to do?\n1) Attack for %c${player.dmg}%c damages\n2) Use your special ability\n3) Get more info`;
       if (player instanceof Rogue && player.wasUsed === true) {
         console.log(
           `%cYour special ability grants you another turn!`,
-          `font-size:15px ; font-style:bold ; text-decoration:underline ; color:#e97451`
+          ...TURN_COLOR
         );
-        console.log(
-          `You currently have %c${player.hp} life points %cand %c${player.actualMana} mana.
-        
-%cWhat do you wanna do?
-1) Attack for %c${player.specialdmg} %cdamages
-2) Get more info`,
-          `color:#32cd32`,
-          `clear`,
-          `color:#1e90ff`,
-          `clear`,
-          `color:#ef1523`,
-          `clear`
-        );
+        actualdmg = player.specialdmg;
+        choice = `What do you want to do?\n1) Attack for %c${actualdmg}%c damages\n2) Get more info`;
       } else {
-        console.log(
-          `%cIt's your turn!`,
-          `font-size:15px ; font-style:bold ; text-decoration:underline ; color:#e97451`
-        );
-        console.log(
-          `You currently have %c${player.hp} life points %cand %c${player.actualMana} mana.
-        
-%cWhat do you wanna do?
-1) Attack for %c${player.dmg} %cdamages
-2) Use your special ability
-3) Get more info`,
-          `color:#32cd32`,
-          `clear`,
-          `color:#1e90ff`,
-          `clear`,
-          `color:#ef1523`,
-          `clear`
-        );
+        console.log(`%cIt's your turn!`, ...TURN_COLOR);
       }
+      let playerState =
+        `You currently have %c${player.hp}%c life points and %c${player.actualMana}%c mana.\n\n` +
+        choice;
+      console.log(playerState, ...HP_COLOR, ...MANA_COLOR, ...DMG_COLOR);
     } else if (input === 3) {
       if (player instanceof Rogue && player.wasUsed === true) {
         console.log(
-          `
-It's still your turn! You currently have %c${player.hp} life points %cand %c${player.actualMana} mana%c.`,
-          `color:#32cd32`,
-          `clear`,
-          `color:#1e90ff`,
-          `clear`
+          `\nIt's still your turn! You currently have %c${player.hp}%c life points and %c${player.actualMana}%c mana.`,
+          ...HP_COLOR,
+          ...MANA_COLOR
         );
       } else {
         console.log(
-          `It's still your turn! Your currently have %c${player.hp} life points %cand %c${player.actualMana} mana.
-%cWhat do you wanna do?
-1) Attack for %c${player.dmg} %cdamages
-2) Use your special ability`,
-          `color:#32cd32`,
-          `clear`,
-          `color:#1e90ff`,
-          `clear`,
-          `color:#ef1523`,
-          `clear`
+          `It's still your turn! Your currently have %c${player.hp}%c life points and %c${player.actualMana}%c mana.\n\nWhat do you want to do?\n1) Attack for %c${player.dmg} %cdamages\n2) Use your special ability\n`,
+          ...HP_COLOR,
+          ...MANA_COLOR,
+          ...DMG_COLOR
         );
       }
     } else if (input === 1) {
+      let actualdmg = player.dmg;
       let actualhp = target.hp;
       if (player instanceof Rogue && player.wasUsed === true) {
         actualhp -= player.specialdmg;
+        actualdmg = player.specialdmg;
       } else {
         actualhp -= player.dmg;
-      }
-      if (target.protection && !(target instanceof Assassin)) {
-        actualhp = actualhp + target.protectionAmount;
       }
       if (actualhp < 0) {
         actualhp = 0;
       }
-      if (target.protection && target instanceof Assassin) {
-        if (player.user) {
-          console.log(
-            `You tried to attack %c${target.name}%c, but she wasn't there!`,
-            `color:#e97451; font-style: italic`,
-            `clear`
-          );
+      if (target.protection) {
+        if (!(target instanceof Assassin)) {
+          actualhp = actualhp + target.protectionAmount;
         } else {
-          console.log(
-            `%c${player.name} %ctried to attack %c${target.name}%c, but she wasn't there!`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#e97451; font-style: italic`,
-            `clear`
-          );
+          if (player.user) {
+            console.log(
+              `You tried to attack %c${target.name}%c, but she wasn't there!`,
+              ...HERO_COLOR
+            );
+          } else {
+            console.log(
+              `%c${player.name}%c tried to attack %c${target.name}%c, but she wasn't there!`,
+              ...HERO_COLOR,
+              ...HERO_COLOR
+            );
+          }
         }
       } else if (player.user) {
-        if (player instanceof Rogue && player.wasUsed === true) {
-          console.log(
-            `You attacked %c${target.name} %cand inflict %c${player.specialdmg} damages!`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#ef1523`
-          );
-        } else {
-          console.log(
-            `You attacked %c${target.name} %cand inflict %c${player.dmg} damages!`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#ef1523`
-          );
-        }
+        console.log(
+          `You attacked %c${target.name}%c and inflict %c${actualdmg}%c damages!`,
+          ...HERO_COLOR,
+          ...DMG_COLOR
+        );
       } else {
-        if (player instanceof Rogue && player.wasUsed === true) {
-          console.log(
-            `%c${player.name} %cattacks %c${target.name}%c, dealing %c${player.specialdmg} damages!`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#ef1523`
-          );
-        } else {
-          console.log(
-            `%c${player.name} %cattacks %c${target.name}%c, dealing %c${player.dmg} damages!`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#ef1523`
-          );
-        }
+        console.log(
+          `%c${player.name}%c attacks %c${target.name}%c, dealing %c${actualdmg}%c damages!`,
+          ...HERO_COLOR,
+          ...HERO_COLOR,
+          ...DMG_COLOR
+        );
       }
       if (!(target instanceof Assassin)) {
         if (target.protection) {
           console.log(
-            `But %c${target.protectionAmount} %cis blocked!`,
-            `color:#ffe135`,
-            `clear`
+            `But %c${target.protectionAmount}%c is blocked!`,
+            ...BLOCKED_COLOR
           );
         }
         console.log(
-          `%c${target.name} %chas %c${actualhp} %clife point left!`,
-          `color:#e97451; font-style: italic`,
-          `color:wite`,
-          `color:#32cd32`,
-          `clear`
+          `%c${target.name}%c has %c${actualhp}%c life point left!`,
+          ...HERO_COLOR,
+          ...HP_COLOR
         );
       }
     } else if (input === 2) {
@@ -374,49 +316,40 @@ It's still your turn! You currently have %c${player.hp} life points %cand %c${pl
             if (player.user) {
               console.log(
                 `You tried to use your special ability on %c${target.name}%c, but she wasn't there!`,
-                `color:#e97451; font-style: italic`,
-                `clear`
+                ...HERO_COLOR
               );
             } else {
               console.log(
-                `%c${player.name} %ctried to use his/her special ability on %c${target.name}%c, but she wasn't there!`,
-                `color:#e97451; font-style: italic`,
-                `clear`,
-                `color:#e97451; font-style: italic`,
-                `clear`
+                `%c${player.name}%c tried to use his/her special ability on %c${target.name}%c, but she wasn't there!`,
+                ...HERO_COLOR,
+                ...HERO_COLOR
               );
             }
           } else if (player.user) {
             console.log(
-              `You target %c${target.name} %cwith your special ability and inflict %c${player.specialdmg} damages!`,
-              `color:#e97451; font-style: italic`,
-              `clear`,
-              `color:#ef1523`
+              `You target %c${target.name}%c with your special ability and inflict %c${player.specialdmg}%c damages!`,
+              ...HERO_COLOR,
+              ...DMG_COLOR
             );
           } else {
             console.log(
-              `%c${player.name} %ctargets %c${target.name} %cwith his/her special ability and deals %c${player.specialdmg} damages!`,
-              `color:#e97451; font-style: italic`,
-              `clear`,
-              `color:#e97451; font-style: italic`,
-              `clear`,
-              `color:#ef1523`
+              `%c${player.name}%c targets %c${target.name}%c with his/her special ability and deals %c${player.specialdmg}%c damages!`,
+              ...HERO_COLOR,
+              ...HERO_COLOR,
+              ...DMG_COLOR
             );
           }
           if (!(target instanceof Assassin)) {
             if (target.protection) {
               console.log(
-                `But %c${target.protectionAmount} %cis blocked!`,
-                `color:#ffe135`,
-                `clear`
+                `But %c${target.protectionAmount}%c is blocked!`,
+                ...BLOCKED_COLOR
               );
             }
             console.log(
               `%c${target.name} %chas %c${actualhp} %clife point left!`,
-              `color:#e97451; font-style: italic`,
-              `color:wite`,
-              `color:#32cd32`,
-              `clear`
+              ...HERO_COLOR,
+              ...HP_COLOR
             );
           }
         }

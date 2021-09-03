@@ -1,9 +1,11 @@
+"use strict";
 //Joueur//
 class Characters {
   constructor() {
     this.state = "alive";
     this.user = false;
     this.selected = false;
+    this.protection = false;
   }
   /**
    * Dealing normal damage method
@@ -32,10 +34,8 @@ class Characters {
   kill(target, lifetmp) {
     console.log(`%c${this.name} killed ${target.name}!`, `color:#ff4646`);
     target.state = "dead";
-    if (this.actualMana !== this.mana) {
-      this.recoverMana();
-    }
-    if (this instanceof Berserker) {
+    this.recoverMana();
+    if (typeof this.rageleech === "function") {
       this.rageleech(lifetmp);
     }
   }
@@ -43,53 +43,45 @@ class Characters {
    * Common to all character mana recovery method if a kill is done
    */
   recoverMana() {
-    if (this.actualMana + 20 > this.mana) {
-      if (this.player) {
-        console.log(
-          `You recover %c${
-            this.mana - this.actualMana
-          } mana%c! You now have %c${this.mana} mana %cleft!`,
-          `color:#1e90ff`,
-          `clear`,
-          `color:#1e90ff`,
-          `clear`
-        );
+    if (this.actualMana !== this.mana) {
+      if (this.actualMana + 20 > this.mana) {
+        if (this.player) {
+          console.log(
+            `You recover %c${
+              this.mana - this.actualMana
+            }%c mana! You now have %c${this.mana}%c mana left!`,
+            ...MANA_COLOR,
+            ...MANA_COLOR
+          );
+        } else {
+          console.log(
+            `%c${this.name}%c recovers %c${
+              this.mana - this.actualMana
+            }%c mana! %c${this.name}%c now has %c${this.mana}%c mana left!`,
+            ...HERO_COLOR,
+            ...MANA_COLOR,
+            ...HERO_COLOR,
+            ...MANA_COLOR
+          );
+        }
+        this.actualMana = this.mana;
       } else {
-        console.log(
-          `%c${this.name} %crecovers %c${this.mana - this.actualMana} mana! %c${
-            this.name
-          } %cnow has %c${this.mana} mana %cleft!`,
-          `color:#e97451; font-style: italic`,
-          `clear`,
-          `color:#1e90ff`,
-          `color:#e97451; font-style: italic`,
-          `clear`,
-          `color:#1e90ff`,
-          `clear`
-        );
-      }
-      this.actualMana = this.mana;
-    } else {
-      this.actualMana = this.actualMana + 20;
-      if (this.player) {
-        console.log(
-          `You recover %c20 mana %c! You now have %c${this.actualMana} mana %cleft!`,
-          `color:#1e90ff`,
-          `clear`,
-          `color:#1e90ff`,
-          `clear`
-        );
-      } else {
-        console.log(
-          `%c${this.name} %crecovers %c20 mana! %c${this.name} %cnow has %c${this.actualMana} mana %cleft!`,
-          `color:#e97451; font-style: italic`,
-          `clear`,
-          `color:#1e90ff`,
-          `color:#e97451; font-style: italic`,
-          `clear`,
-          `color:#1e90ff`,
-          `clear`
-        );
+        this.actualMana = this.actualMana + 20;
+        if (this.player) {
+          console.log(
+            `You recover %c20%c mana! You now have %c${this.actualMana}%c mana left!`,
+            ...MANA_COLOR,
+            ...MANA_COLOR
+          );
+        } else {
+          console.log(
+            `%c${this.name}%c recovers %c20%c mana! %c${this.name}%c now has %c${this.actualMana}%c mana left!`,
+            ...HERO_COLOR,
+            ...MANA_COLOR,
+            ...HERO_COLOR,
+            ...MANA_COLOR
+          );
+        }
       }
     }
   }

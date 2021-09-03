@@ -1,3 +1,4 @@
+"use strict";
 class Fighter extends Characters {
   constructor(name) {
     super();
@@ -10,7 +11,6 @@ class Fighter extends Characters {
     this.cost = 20;
     this.specialdmg = 5;
     this.needTarget = true;
-    this.protection = false;
     this.protectionAmount = 2;
   }
   /**
@@ -37,17 +37,14 @@ class Fighter extends Characters {
         this.protection = true;
         if (this.user) {
           console.log(
-            `You now have %c${this.actualMana} %cmana left.`,
-            `color:#1e90ff`,
-            `clear`
+            `You now have %c${this.actualMana}%c mana left.`,
+            ...MANA_COLOR
           );
         } else {
           console.log(
-            `%c${this.name} %cnow has %c${this.actualMana} %cmana left.`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#1e90ff`,
-            `clear`
+            `%c${this.name}%c now has %c${this.actualMana}%c mana left.`,
+            ...HERO_COLOR,
+            ...MANA_COLOR
           );
         }
       }

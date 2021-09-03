@@ -1,3 +1,4 @@
+"use strict";
 class Berserker extends Characters {
   constructor(name) {
     super();
@@ -26,27 +27,18 @@ class Berserker extends Characters {
     if (this.hp !== 1) {
       if (this.user) {
         console.log(
-          `You hurt yourself, loosing %c1 hp%c...
-You get enraged! Your damages increase for %c1%c!`,
-          `color:#32cd32`,
-          `clear`,
-          `color:#ef1523`,
-          `clear`
+          `You hurt yourself, loosing %c1%c hp...\nYou get enraged! Your damages increase for %c1%c!`,
+          ...HP_COLOR,
+          ...DMG_COLOR
         );
       } else {
         console.log(
-          `%c${this.name} %churts himself, loosing %c1 hp%c...
-%c${this.name} %cenrages himself! %c${this.name}%c's damages increase for %c1%c!`,
-          `color:#e97451; font-style: italic`,
-          `clear`,
-          `color:#32cd32`,
-          `clear`,
-          `color:#e97451; font-style: italic`,
-          `clear`,
-          `color:#e97451; font-style: italic`,
-          `clear`,
-          `color:#ef1523`,
-          `clear`
+          `%c${this.name}%c hurts himself, loosing %c1%c hp...\n%c${this.name}%c enrages himself! %c${this.name}%c's damages increase for %c1%c!`,
+          ...HERO_COLOR,
+          ...HP_COLOR,
+          ...HERO_COLOR,
+          ...HERO_COLOR,
+          ...DMG_COLOR
         );
       }
       this.hp = this.hp - 1;
@@ -55,8 +47,7 @@ You get enraged! Your damages increase for %c1%c!`,
     } else {
       console.log(
         `Your battle spirit restrain your arm... "%cYou can't die by your own hand!%c"`,
-        `font-style:italic`,
-        `clear`
+        ...ITALIC
       );
     }
   }
@@ -90,23 +81,17 @@ You get enraged! Your damages increase for %c1%c!`,
         }
         if (this.user) {
           console.log(
-            `Enraged, you leech %c${lifeleeched} life %cfrom your victim! You now have %c${this.hp} life %cleft!`,
-            `color:#32cd32`,
-            `clear`,
-            `color:#32cd32`,
-            `clear`
+            `Enraged, you leech %c${lifeleeched}%c life from your victim! You now have %c${this.hp}%c life left!`,
+            ...HP_COLOR,
+            ...HP_COLOR
           );
         } else {
           console.log(
-            `Enraged, %c${this.name} %cleechs %c${lifeleeched} life %cfrom his victim! %c${this.name} %cnow has %c${this.hp} life %cleft!`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#32cd32`,
-            `clear`,
-            `color:#e97451; font-style: italic`,
-            `clear`,
-            `color:#32cd32`,
-            `clear`
+            `Enraged, %c${this.name}%c leechs %c${lifeleeched}%c life from his victim! %c${this.name}%c now has %c${this.hp}%c life left!`,
+            ...HERO_COLOR,
+            ...HP_COLOR,
+            ...HERO_COLOR,
+            ...HP_COLOR
           );
         }
       }
