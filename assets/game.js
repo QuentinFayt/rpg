@@ -23,10 +23,7 @@ class Game {
         this.state = "over";
         console.log("%cThe fight is over!", `font-size:15px ; font-style:bold`);
       } else {
-        console.log(
-          `%cRound ${countTurn}`,
-          `font-size:20px ; font-style:bold ; text-decoration:underline ; color:#77f0ff`
-        );
+        console.log(`%cRound ${countTurn}`, ...TURN_COLOR);
         this.turnleft--;
         new Turn(listOfFighters);
         this.resetProtectiveState(listOfFighters);
@@ -56,10 +53,7 @@ class Game {
    * @return {object} user's selection
    */
   selectYourChampion(charactersList) {
-    console.log(
-      `%cWhat do you wanna play?`,
-      `font-size:15px ; font-style:bold ; color:#77f0ff`
-    );
+    console.log(`%cWhat do you wanna play?`, ...SELECT);
     charactersList.forEach((character, index) =>
       console.log(
         `${index + 1}) %c${character.name}%c the %c${
@@ -96,10 +90,10 @@ class Game {
       }%c damage per turn\n-%c${
         charactersList[userInput].mana
       }%c mana\n-${charactersList[userInput].description()}`,
-      HERO_COLOR,
-      HP_COLOR,
-      DMG_COLOR,
-      MANA_COLOR
+      ...HERO_COLOR,
+      ...HP_COLOR,
+      ...DMG_COLOR,
+      ...MANA_COLOR
     );
     return charactersList[userInput];
   }
@@ -141,9 +135,9 @@ class Game {
    * @param  {array} listofChar : list of all playable characters
    */
   displayListOfFighters(listofChar) {
-    console.log(`%cThe fighters stepped in the arena!!!`, ENTERING);
+    console.log(`%cThe fighters stepped in the arena!!!`, ...ENTERING);
     listofChar.forEach((character) =>
-      console.log(`%c${character.name}%c enters the arena!`, HERO_COLOR)
+      console.log(`%c${character.name}%c enters the arena!`, ...HERO_COLOR)
     );
   }
   /**
@@ -160,9 +154,9 @@ class Game {
       }
     }
     if (winner.user === true) {
-      console.log(`%cCongratulation, you won!`, END_OF_FIGHT_COLOR);
+      console.log(`%cCongratulation, you won!`, ...END_OF_FIGHT_COLOR);
     } else {
-      console.log(`%c${winner.name} won!`, END_OF_FIGHT_COLOR);
+      console.log(`%c${winner.name} won!`, ...END_OF_FIGHT_COLOR);
     }
   }
 }

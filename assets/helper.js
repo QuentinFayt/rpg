@@ -15,6 +15,7 @@ const TURN_COLOR = [
 const END_OF_FIGHT_COLOR = [`font-size:15px ; font-style:bold`];
 const BLOCKED_COLOR = [`color:#ffe135`, `clear`];
 const ITALIC = [`font-style:italic`, `clear`];
+const SELECT = [`font-size:15px ; font-style:bold ; color:#77f0ff`];
 /**
  * Randomize array function
  * @param  {array} array : array to shuffle

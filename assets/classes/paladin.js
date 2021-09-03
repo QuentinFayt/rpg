@@ -41,8 +41,8 @@ class Paladin extends Characters {
                 `You restore %c${
                   this.maxhp - this.hp
                 }%c of your life! You get back up to %c${this.maxhp}%c life!`,
-                HP_COLOR,
-                HP_COLOR
+                ...HP_COLOR,
+                ...HP_COLOR
               );
             } else {
               console.log(
