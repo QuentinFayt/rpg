@@ -40,13 +40,13 @@ class Rogue extends Characters {
           if (this.user) {
             console.log(
               `You now have %c${this.actualMana}%c mana left.`,
-              MANA_COLOR
+              ...MANA_COLOR
             );
           } else {
             console.log(
               `%c${this.name}%c now has %c${this.actualMana}%c mana left.`,
-              HERO_COLOR,
-              MANA_COLOR
+              ...HERO_COLOR,
+              ...MANA_COLOR
             );
           }
         }
