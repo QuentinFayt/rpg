@@ -66,7 +66,7 @@ class Turn {
 
     if (computerDecision === 0) {
       this.talkToUser(computerTurn, computerTarget, 1);
-      computerTurn.dealDamage(computerTarget);
+      computerTurn.dealDamage(computerTarget, "1");
     } else {
       if (computerTurn.needTarget) {
         if (computerTurn instanceof Rogue && computerTurn.wasUsed === true) {
@@ -74,7 +74,7 @@ class Turn {
         } else {
           this.talkToUser(computerTurn, computerTarget, 2);
         }
-        computerTurn.special(computerTarget);
+        computerTurn.dealDamage(computerTarget, "2");
       } else {
         computerTurn.special();
       }
@@ -192,7 +192,7 @@ class Turn {
           (userTarget) => userTarget.name === userInput
         );
         this.talkToUser(player, target[0], 1);
-        player.dealDamage(target[0]);
+        player.dealDamage(target[0], "1");
       } else if (userInput === 2) {
         if (player.needTarget) {
           userInput = this.userTarget(player);
@@ -200,7 +200,7 @@ class Turn {
             (userTarget) => userTarget.name === userInput
           );
           this.talkToUser(player, target[0], 2);
-          player.special(target[0]);
+          player.dealDamage(target[0], "2");
         } else {
           player.special();
         }

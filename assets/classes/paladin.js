@@ -4,7 +4,7 @@ class Paladin extends Characters {
     super();
     this.name = name;
     this.hp = 18;
-    this.maxhp = this.hp;
+    this.maxhp = 18;
     this.dmg = 3;
     this.mana = 120;
     this.actualMana = this.mana;
@@ -23,76 +23,24 @@ class Paladin extends Characters {
    * Hero's special ability's method
    * @param  {object} target : user/computer's target
    */
-  special(target) {
+  special() {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
-      if (this.state !== "dead") {
-        if (target.protection) {
-          if (!(target instanceof Assassin)) {
-            target.hp = target.hp - (this.specialdmg - target.protectionAmount);
-          }
-        } else {
-          target.hp = target.hp - this.specialdmg;
-        }
-        if (this.hp + this.healingRecovery > this.maxhp) {
-          if (this.hp !== this.maxhp) {
-            if (this.user) {
-              console.log(
-                `You restore %c${
-                  this.maxhp - this.hp
-                }%c of your life! You get back up to %c${this.maxhp}%c life!`,
-                ...HP_COLOR,
-                ...HP_COLOR
-              );
-            } else {
-              console.log(
-                `%c${this.name}%c restores %c${
-                  this.maxhp - this.hp
-                }%c of his life! %c${this.name}%c gets back up to %c${
-                  this.maxhp
-                }%c life!`,
-                ...HERO_COLOR,
-                ...HP_COLOR,
-                ...HERO_COLOR,
-                ...HP_COLOR
-              );
-            }
-            this.hp = this.maxhp;
-          }
-        } else {
-          this.hp = this.hp + this.healingRecovery;
-          if (this.user) {
-            console.log(
-              `You restore %c${this.healingRecovery}%c of your life! You get back up to %c${this.hp}%c life!`,
-              ...HP_COLOR,
-              ...HP_COLOR
-            );
-          } else {
-            console.log(
-              `%c${this.name}%c restores %c${this.healingRecovery}%c of his life! %c${this.name}%c gets back up to %c${this.hp}%c life!`,
-              ...HERO_COLOR,
-              ...HP_COLOR,
-              ...HERO_COLOR,
-              ...HP_COLOR
-            );
-          }
-        }
-        if (this.user) {
-          console.log(
-            `You now have %c${this.actualMana}%c mana left.`,
-            ...MANA_COLOR
-          );
-        } else {
-          console.log(
-            `%c${this.name}%c now has %c${this.actualMana}%c mana left.`,
-            ...HERO_COLOR,
-            ...MANA_COLOR
-          );
-        }
+
+      if (this.user) {
+        console.log(
+          `You now have %c${this.actualMana}%c mana left.`,
+          ...MANA_COLOR
+        );
+      } else {
+        console.log(
+          `%c${this.name}%c now has %c${this.actualMana}%c mana left.`,
+          ...HERO_COLOR,
+          ...MANA_COLOR
+        );
       }
-      if (target.hp <= 0) {
-        super.kill(target);
-      }
+
+      super.heal(this.healingRecovery);
     }
   }
   /**
