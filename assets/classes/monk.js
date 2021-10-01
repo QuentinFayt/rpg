@@ -4,7 +4,7 @@ class Monk extends Characters {
     super();
     this.name = name;
     this.hp = 13;
-    this.maxhp = this.hp;
+    this.maxhp = 13;
     this.dmg = 3;
     this.mana = 160;
     this.actualMana = this.mana;
@@ -28,46 +28,8 @@ class Monk extends Characters {
       this.actualMana = this.actualMana - this.cost;
       if (this.hp === this.maxhp) {
         console.log(`You tried to heal yourself...But fail!`);
-      } else if (this.hp + this.healingRecovery > this.maxhp) {
-        if (this.user) {
-          console.log(
-            `You use Heal and restore %c${
-              this.maxhp - this.hp
-            }%c of your life points! You go back up to %c${this.maxhp}%c life!`,
-            ...HP_COLOR,
-            ...HP_COLOR
-          );
-        } else {
-          console.log(
-            `%c${this.name}%c uses Heal and restores %c${
-              this.maxhp - this.hp
-            }%c of his life points! %c${this.name}%c goes back up to %c${
-              this.maxhp
-            }%c life!`,
-            ...HERO_COLOR,
-            ...HP_COLOR,
-            ...HERO_COLOR,
-            ...HP_COLOR
-          );
-        }
-        this.hp = this.maxhp;
       } else {
-        this.hp = this.hp + this.healingRecovery;
-        if (this.user) {
-          console.log(
-            `You use Heal and restore %c${this.healingRecovery}%c of your life points! You go back up to %c${this.hp}%c life!`,
-            ...HP_COLOR,
-            ...HP_COLOR
-          );
-        } else {
-          console.log(
-            `%c${this.name}%c uses Heal and restores %c${this.healingRecovery}%c of his life points! %c${this.name}%c goes back up to %c${this.hp}%c life!`,
-            ...HERO_COLOR,
-            ...HP_COLOR,
-            ...HERO_COLOR,
-            ...HP_COLOR
-          );
-        }
+        super.heal(this.healingRecovery);
       }
       if (this.user) {
         console.log(

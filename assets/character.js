@@ -8,35 +8,51 @@ class Characters {
     this.protection = false;
   }
   /**
-   * Dealing normal damage method
-   * @param  target object :  user/computer's target
+   * checking which method to call
+   * @param {object} target :  user/computer's target
+   * @param {string} input : user/computer's action choice (1 => normal attack, 2 => special)
    */
-  dealDamage(target) {
-    if (this.state !== "dead") {
-      let lifetmp = target.hp;
-      if (target.protection) {
-        if (!(target instanceof Assassin)) {
-          target.hp = target.hp - (this.dmg - target.protectionAmount);
-        }
-      } else {
-        target.hp = target.hp - this.dmg;
+  dealDamage(target, input) {
+    switch (input) {
+      case "1":
+        this.recieveDamage(target, this.dmg);
+        break;
+      case "2":
+        this.special(target);
+        this.recieveDamage(target, this.specialdmg);
+        break;
+    }
+  }
+
+  /**
+   * changing computer/user's target's life method depending on amount
+   * @param {object} target :  user/computer's target
+   * @param  {int} amount : amount of damages to deal to the target
+   */
+  recieveDamage(target, amount) {
+    let lifeTemp = target.hp;
+    if (target.protection) {
+      if (!(target instanceof Assassin)) {
+        target.hp -= amount - target.protectionAmount;
       }
-      if (target.hp <= 0) {
-        this.kill(target, lifetmp);
-      }
+    } else {
+      target.hp -= amount;
+    }
+    if (target.hp <= 0) {
+      this.kill(target, lifeTemp);
     }
   }
   /**
    * Displaying the kill and calling the right method after a kill is done
    * @param  {object} target : player/computer's target
-   * @param  {int} lifetmp : life before the kill for Berserker's special method
+   * @param  {int} lifeTemp : life before the kill for Berserker's special method
    */
-  kill(target, lifetmp) {
+  kill(target, lifeTemp) {
     console.log(`%c${this.name} killed ${target.name}!`, `color:#ff4646`);
     target.state = "dead";
     this.recoverMana();
     if (typeof this.rageleech === "function") {
-      this.rageleech(lifetmp);
+      this.rageleech(lifeTemp);
     }
   }
   /**
@@ -82,6 +98,55 @@ class Characters {
             ...MANA_COLOR
           );
         }
+      }
+    }
+  }
+  /**
+   * Healing method
+   * @param  {int} recovery : amount that the hero can regen
+   */
+  heal(recovery) {
+    if (this.hp + recovery > this.maxhp) {
+      if (this.hp !== this.maxhp) {
+        if (this.user) {
+          console.log(
+            `You restore %c${
+              this.maxhp - this.hp
+            }%c of your life! You get back up to %c${this.maxhp}%c life!`,
+            ...HP_COLOR,
+            ...HP_COLOR
+          );
+        } else {
+          console.log(
+            `%c${this.name}%c restores %c${
+              this.maxhp - this.hp
+            }%c of his life! %c${this.name}%c gets back up to %c${
+              this.maxhp
+            }%c life!`,
+            ...HERO_COLOR,
+            ...HP_COLOR,
+            ...HERO_COLOR,
+            ...HP_COLOR
+          );
+        }
+        this.hp = this.maxhp;
+      }
+    } else {
+      this.hp = this.hp + recovery;
+      if (this.user) {
+        console.log(
+          `You restore %c${recovery}%c of your life! You get back up to %c${this.hp}%c life!`,
+          ...HP_COLOR,
+          ...HP_COLOR
+        );
+      } else {
+        console.log(
+          `%c${this.name}%c restores %c${recovery}%c of his life! %c${this.name}%c gets back up to %c${this.hp}%c life!`,
+          ...HERO_COLOR,
+          ...HP_COLOR,
+          ...HERO_COLOR,
+          ...HP_COLOR
+        );
       }
     }
   }

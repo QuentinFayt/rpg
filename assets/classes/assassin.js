@@ -23,7 +23,7 @@ class Assassin extends Characters {
    * Hero's special ability's method
    * @param  {object} target : user/computer's target
    */
-  special(target) {
+  special() {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
       if (this.state !== "dead") {

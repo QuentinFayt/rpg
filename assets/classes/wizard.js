@@ -22,32 +22,20 @@ class Wizard extends Characters {
    * Hero's special ability's method
    * @param  {object} target : user/computer's target
    */
-  special(target) {
+  special() {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
-      if (this.state !== "dead") {
-        if (target.protection) {
-          if (!(target instanceof Assassin)) {
-            target.hp = target.hp - (this.specialdmg - target.protectionAmount);
-          }
-        } else {
-          target.hp = target.hp - this.specialdmg;
-        }
-        if (this.user) {
-          console.log(
-            `You now have %c${this.actualMana}%c mana left.`,
-            ...MANA_COLOR
-          );
-        } else {
-          console.log(
-            `%c${this.name}%c now has %c${this.actualMana}%c mana left.`,
-            ...HERO_COLOR,
-            ...MANA_COLOR
-          );
-        }
-      }
-      if (target.hp <= 0) {
-        super.kill(target);
+      if (this.user) {
+        console.log(
+          `You now have %c${this.actualMana}%c mana left.`,
+          ...MANA_COLOR
+        );
+      } else {
+        console.log(
+          `%c${this.name}%c now has %c${this.actualMana}%c mana left.`,
+          ...HERO_COLOR,
+          ...MANA_COLOR
+        );
       }
     }
   }
