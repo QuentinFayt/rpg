@@ -26,18 +26,28 @@ class Assassin extends Characters {
   special() {
     if (this.actualMana >= this.cost) {
       this.actualMana = this.actualMana - this.cost;
-      this.wasUsed = true;
-      if (this.user) {
-        console.log(
-          `You now have %c${this.actualMana}%c mana left.`,
-          MANA_COLOR
-        );
-      } else {
-        console.log(
-          `%c${this.name}%c now has %c${this.actualMana}%c mana left.`,
-          HERO_COLOR,
-          MANA_COLOR
-        );
+      if (this.state !== "dead") {
+        if (target.protection) {
+          target.hp = target.hp - (this.specialdmg - target.protectionAmount);
+        } else {
+          target.hp = target.hp - this.specialdmg;
+        }
+        this.wasUsed = true;
+        if (this.user) {
+          console.log(
+            `You now have %c${this.actualMana}%c mana left.`,
+            ...MANA_COLOR
+          );
+        } else {
+          console.log(
+            `%c${this.name}%c now has %c${this.actualMana}%c mana left.`,
+            ...HERO_COLOR,
+            ...MANA_COLOR
+          );
+        }
+      }
+      if (target.hp <= 0) {
+        super.kill(target);
       }
     }
   }
